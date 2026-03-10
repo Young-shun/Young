@@ -124,4 +124,33 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>8.3.0</version>
+                <configuration>
+                    <!-- generate multiple formats so we can parse JSON if needed -->
+                    <formats>
+                        <format>HTML</format>
+                        <format>JSON</format>
+                        <format>XML</format>
+                    </formats>
+                    <!-- fail the build on CVSS score >= 7 (high/critical) -->
+                    <failBuildOnCVSS>7</failBuildOnCVSS>
+                    <outputDirectory>${project.build.directory}/dependency-check-report</outputDirectory>
+                    <suppressionFiles />
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
+
