@@ -1,8 +1,11 @@
 package com.sky.service;
 
+import com.aliyuncs.ecs.model.v20140526.AttachKeyPairResponse.Result;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
+import com.sky.result.PageResult;
 
 public interface EmployeeService {
 
@@ -20,5 +23,13 @@ public interface EmployeeService {
      * @param employeeDTO
      */
     void save(EmployeeDTO employeeDTO);
+
+    PageResult page(EmployeePageQueryDTO employeePageQueryDTO);
+
+    void startClose(Integer status, Long id);
+
+    Employee getById(Long id);
+
+    void update(EmployeeDTO employeeDTO);
 
 }
