@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
@@ -126,20 +127,23 @@ public class ReportServiceImpl implements ReportService {
       dateList.add(date);
       LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
       LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
-      Integer dailyOrderCountList = orderMapper.getTotalOrderCount(beginTime, endTime);
-      Integer dailyValidOrderCountList = orderMapper.getValidOrderCount(beginTime, endTime, Orders.COMPLETED);
+      Long dailyOrderCountList = orderMapper.selectCount(new LambdaQueryWrapper<Orders>()
+          .between(Orders::getOrderTime, beginTime, endTime));
+      Long dailyValidOrderCountList = orderMapper.selectCount(new LambdaQueryWrapper<Orders>()
+          .between(Orders::getOrderTime, beginTime, endTime)
+          .eq(Orders::getStatus, Orders.COMPLETED));
 
       if (dailyOrderCountList == null) {
-        dailyOrderCountList = 0;
+        dailyOrderCountList = 0L;
       }
-      totalOrderCount += dailyOrderCountList;
+      totalOrderCount += dailyOrderCountList.intValue();
       orderCountList += dailyOrderCountList + ",";
 
       if (dailyValidOrderCountList == null) {
-        dailyValidOrderCountList = 0;
+        dailyValidOrderCountList = 0L;
       }
       validOrderCountList += dailyValidOrderCountList + ",";
-      validOrderCount += dailyValidOrderCountList;
+      validOrderCount += dailyValidOrderCountList.intValue();
     }
     orderCompletionRate = totalOrderCount == 0 ? 0.0 : (double) validOrderCount / totalOrderCount;
     order.setDateList(StringUtils.join(dateList, ","));

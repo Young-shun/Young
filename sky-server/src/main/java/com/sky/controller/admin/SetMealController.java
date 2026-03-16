@@ -65,9 +65,9 @@ public class SetMealController {
   @GetMapping("/page")
   public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO) {
     log.info("套餐分页查询，参数：{}", setmealPageQueryDTO);
-    PageDTO<Setmeal> p = setMealService.querySetmealByPage(setmealPageQueryDTO);
+    Page<SetmealVO> p = setMealService.querySetmealByPage(setmealPageQueryDTO);
 
-    return Result.success(new PageResult(p.getTotal(), p.getList()));
+    return Result.success(new PageResult(p.getTotal(), p.getRecords()));
   }
 
   /**

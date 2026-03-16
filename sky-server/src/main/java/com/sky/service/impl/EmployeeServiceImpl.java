@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sky.constant.MessageConstant;
@@ -47,7 +48,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         String password = employeeLoginDTO.getPassword();
 
         // 1、根据用户名查询数据库中的数据
-        Employee employee = employeeMapper.getByUsername(username);
+        Employee employee = employeeMapper
+                .selectOne(new LambdaQueryWrapper<Employee>().eq(Employee::getUsername, username));
 
         // 2、处理各种异常情况（用户名不存在、密码不对、账号被锁定）
         if (employee == null) {
@@ -120,7 +122,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     @Override
     public void startClose(Integer status, Long id) {
         Employee employee = Employee.builder().id(id).status(status).build();
-        employeeMapper.update(employee);
+        employeeMapper.updateById(employee);
     }
 
     /**
@@ -131,7 +133,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
      */
     @Override
     public Employee getById(Long id) {
-        Employee employee = employeeMapper.getById(id);
+        Employee employee = employeeMapper.selectById(id);
         employee.setPassword("****");
         return employee;
     }
@@ -149,7 +151,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         // employee.setUpdateTime(LocalDateTime.now());
         //// 设置当前记录修改人id
         // employee.setUpdateUser(BaseContext.getCurrentId());
-        employeeMapper.update(employee);
+        employeeMapper.updateById(employee);
     }
 
 }

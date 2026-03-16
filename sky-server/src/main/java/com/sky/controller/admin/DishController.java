@@ -67,10 +67,10 @@ public class DishController {
   @GetMapping("/page")
   public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
     log.info("菜品分页查询，参数：{}", dishPageQueryDTO);
-    PageDTO<Dish> p = dishService
+    Page<DishVO> p = dishService
         .queryDishByPage(dishPageQueryDTO);
 
-    return Result.success(new PageResult(p.getTotal(), p.getList()));
+    return Result.success(new PageResult(p.getTotal(), p.getRecords()));
   }
 
   /**

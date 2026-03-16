@@ -6,24 +6,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
-import com.sky.dto.PageDTO;
 import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.CategoryMapper;
-import com.sky.mapper.DishMapper;
-import com.sky.mapper.SetmealMapper;
-import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 /**
@@ -35,10 +30,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Autowired
     private CategoryMapper categoryMapper;
-    @Autowired
-    private DishMapper dishMapper;
-    @Autowired
-    private SetmealMapper setmealMapper;
 
     /**
      * 新增分类
@@ -52,12 +43,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
         // 分类状态默认为禁用状态0
         category.setStatus(StatusConstant.DISABLE);
-
-        // 设置创建时间、修改时间、创建人、修改人
-        // category.setCreateTime(LocalDateTime.now());
-        // category.setUpdateTime(LocalDateTime.now());
-        // category.setCreateUser(BaseContext.getCurrentId());
-        // category.setUpdateUser(BaseContext.getCurrentId());
 
         categoryMapper.insert(category);
     }
@@ -127,7 +112,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     public List<Category> list(Integer type) {
-
         return categoryMapper.selectList(new LambdaQueryWrapper<Category>()
                 .eq(Category::getStatus, StatusConstant.ENABLE)
                 .eq(type != null, Category::getType, type)
@@ -139,12 +123,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * 分类分页查询
      */
     @Override
-    public PageDTO<Category> queryCategoryByPage(CategoryPageQueryDTO categoryPageQueryDTO) {
+    public Page<Category> queryCategoryByPage(CategoryPageQueryDTO categoryPageQueryDTO) {
         // 1.构建条件
-        Page<Category> page = categoryPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
-        // 2.查询
-        page(page);
+        Page<Category> page = new Page<>(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
+        categoryMapper.selectPage(page, new LambdaQueryWrapper<Category>()
+                .eq(categoryPageQueryDTO.getType() != null, Category::getType, categoryPageQueryDTO.getType())
+                .like(categoryPageQueryDTO.getName() != null && !categoryPageQueryDTO.getName().isEmpty(),
+                        Category::getName, categoryPageQueryDTO.getName())
+                .orderByAsc(Category::getSort)
+                .orderByDesc(Category::getCreateTime));
         // 3.封装返回
-        return PageDTO.of(page, Category.class);
+        return page;
     }
 }

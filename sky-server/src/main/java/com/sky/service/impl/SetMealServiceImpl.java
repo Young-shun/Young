@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -183,13 +185,12 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
   }
 
   @Override
-  public PageDTO<Setmeal> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO) {
+  public Page<SetmealVO> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO) {
     // 1.构建条件
-    Page<Setmeal> page = setmealPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
-    // 2.查询
-    page(page);
-    // 3.封装返回
-    return PageDTO.of(page, Setmeal.class);
+    Page<SetmealVO> page = new Page<>(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
+    setmealMapper.pageQuery(page, setmealPageQueryDTO);
+    // 3.封装返回结果
+    return page;
   }
 
 }

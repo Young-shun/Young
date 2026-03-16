@@ -1,5 +1,7 @@
 package com.sky.controller.admin;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ShopController {
   public static String Key = "shop_status";
   @Autowired
+  @Resource(name = "redisTemplate")
   private RedisTemplate redisTemplate;
 
   /**
@@ -34,7 +37,7 @@ public class ShopController {
   @PutMapping("/{status}")
   public Result<String> setStatus(@PathVariable Integer status) {
     log.info("设置商店状态: {}", status);
-    redisTemplate.opsForValue().set(Key, String.valueOf(status));
+    redisTemplate.opsForValue().set("shop_status", status);
     return Result.success();
   }
 
@@ -46,7 +49,7 @@ public class ShopController {
   @GetMapping("/status")
   public Result<Integer> getStatus() {
     log.info("获取商店状态");
-    String status = (String) redisTemplate.opsForValue().get(Key);
-    return Result.success(Integer.valueOf(status));
+    Integer status = (Integer) redisTemplate.opsForValue().get(Key);
+    return Result.success(status);
   }
 }

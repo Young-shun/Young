@@ -51,9 +51,9 @@ public class CategoryController {
     @ApiOperation("分类分页查询")
     public Result<PageResult> page(CategoryPageQueryDTO categoryPageQueryDTO) {
         log.info("分页查询：{}", categoryPageQueryDTO);
-        PageDTO<Category> p = categoryService
+        Page<Category> p = categoryService
                 .queryCategoryByPage(categoryPageQueryDTO);
-        return Result.success(new PageResult(p.getTotal(), p.getList()));
+        return Result.success(new PageResult(p.getTotal(), p.getRecords()));
     }
 
     /**

@@ -2,14 +2,12 @@ package com.sky.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Select;
-import org.aspectj.bridge.Message;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
@@ -17,17 +15,13 @@ import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
-import com.sky.dto.PageDTO;
-import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
-import com.sky.entity.Employee;
 import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
-import com.sky.mapper.setmealDishMapper;
+
 import com.sky.mapper.DishMapper;
-import com.sky.result.PageResult;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 
@@ -40,8 +34,6 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
   private DishMapper dishMapper;
   @Autowired
   private DishFlavorMapper dishFlavorMapper;
-  @Autowired
-  private setmealDishMapper setmealDishMapper;
 
   /**
    * 新增菜品
@@ -58,8 +50,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     // 向口味表插入数据
     List<DishFlavor> flavors = dishDTO.getFlavors();
     if (flavors != null && !flavors.isEmpty()) {
-      flavors.forEach(flavor -> flavor.setDishId(dishId));
-      dishFlavorMapper.insertBatch(flavors);
+      flavors.forEach(flavor -> {
+        flavor.setDishId(dishId);
+        dishFlavorMapper.insert(flavor);
+      });
     }
   }
 
@@ -91,8 +85,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     // dishMapper.deleteById(id);
     // dishFlavorMapper.deleteByDishId(id);
     // }
-    dishMapper.deleteByIds(ids);
-    dishFlavorMapper.deleteByDishIds(ids);
+    dishMapper.deleteBatchIds(ids);
+    dishFlavorMapper.delete(new LambdaQueryWrapper<DishFlavor>().in(DishFlavor::getDishId, ids));
 
     // 删除关联的口味表数据
 
@@ -112,7 +106,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
       return null;
     }
     // 查口味数据
-    List<DishFlavor> flavors = dishFlavorMapper.selectByDishId(id);
+    List<DishFlavor> flavors = dishFlavorMapper
+        .selectList(new LambdaQueryWrapper<DishFlavor>().eq(DishFlavor::getDishId, id));
     DishVO dishVO = new DishVO();
     BeanUtils.copyProperties(dish, dishVO);
     dishVO.setFlavors(flavors);
@@ -127,14 +122,16 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     // 修改菜品表基本信息
     Dish dish = new Dish();
     BeanUtils.copyProperties(dishDTO, dish);
-    dishMapper.update(dish);
+    dishMapper.updateById(dish);
     // 删除原有的口味信息
-    dishFlavorMapper.deleteByDishId(dish.getId());
+    dishFlavorMapper.delete(new LambdaQueryWrapper<DishFlavor>().eq(DishFlavor::getDishId, dish.getId()));
     // 插入新的口味信息
     List<DishFlavor> flavors = dishDTO.getFlavors();
     if (flavors != null && !flavors.isEmpty()) {
-      flavors.forEach(flavor -> flavor.setDishId(dish.getId()));
-      dishFlavorMapper.insertBatch(flavors);
+      flavors.forEach(flavor -> {
+        flavor.setDishId(dish.getId());
+        dishFlavorMapper.insert(flavor);
+      });
     }
   }
 
@@ -151,7 +148,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         // .updateTime(LocalDateTime.now())
         // .updateUser(BaseContext.getCurrentId())
         .build();
-    dishMapper.update(dish);
+    dishMapper.updateById(dish);
   }
 
   /**
@@ -184,7 +181,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
       BeanUtils.copyProperties(d, dishVO);
 
       // 根据菜品id查询对应的口味
-      List<DishFlavor> flavors = dishFlavorMapper.selectByDishId(d.getId());
+      List<DishFlavor> flavors = dishFlavorMapper
+          .selectList(new LambdaQueryWrapper<DishFlavor>().eq(DishFlavor::getDishId, d.getId()));
 
       dishVO.setFlavors(flavors);
       dishVOList.add(dishVO);
@@ -193,13 +191,15 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     return dishVOList;
   }
 
+  /**
+   * 分页查询菜品
+   */
   @Override
-  public PageDTO<Dish> queryDishByPage(DishPageQueryDTO dishPageQueryDTO) {
+  public Page<DishVO> queryDishByPage(DishPageQueryDTO dishPageQueryDTO) {
     // 1.构建条件
-    Page<Dish> page = dishPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
-    // 2.查询
-    page(page);
+    Page<DishVO> page = new Page<>(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
+    dishMapper.page(page, dishPageQueryDTO);
     // 3.封装返回
-    return PageDTO.of(page, Dish.class);
+    return page;
   }
 }

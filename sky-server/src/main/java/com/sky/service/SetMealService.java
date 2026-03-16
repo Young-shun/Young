@@ -2,12 +2,11 @@ package com.sky.service;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sky.dto.PageDTO;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
-import com.sky.result.PageResult;
 import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
 
@@ -42,9 +41,8 @@ public interface SetMealService extends IService<Setmeal> {
   /**
    * 分页查询
    * 
-   * @param setmealPageQueryDTO
    * @return
    */
-  PageDTO<Setmeal> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO);
+  Page<SetmealVO> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO);
 
 }
