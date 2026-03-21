@@ -5,6 +5,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
@@ -30,5 +31,7 @@ public interface DishService extends IService<Dish> {
    * @return
    */
   List<DishVO> listWithFlavor(Dish dish);
+
+  PageDTO<Dish> queryDishByPage(DishPageQueryDTO dishPageQueryDTO);
 
 }

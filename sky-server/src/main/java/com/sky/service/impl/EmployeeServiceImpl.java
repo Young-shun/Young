@@ -1,7 +1,7 @@
 package com.sky.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
@@ -9,6 +9,7 @@ import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
@@ -30,7 +31,7 @@ import org.springframework.util.DigestUtils;
 
 @Service
 @Slf4j
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
@@ -101,11 +102,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public PageResult page(EmployeePageQueryDTO employeePageQueryDTO) {
+    public PageDTO<Employee> page(EmployeePageQueryDTO employeePageQueryDTO) {
         // 开始分页查询
-        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
-        Page<Employee> page = employeeMapper.page(employeePageQueryDTO);
-        return new PageResult(page.getTotal(), page.getResult());
+        Page<Employee> page = employeePageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
+        // 2.查询
+        page(page);
+        // 3.封装返回
+        return PageDTO.of(page, Employee.class);
     }
 
     /**

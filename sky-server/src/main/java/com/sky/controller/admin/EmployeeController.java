@@ -4,6 +4,8 @@ import com.sky.constant.JwtClaimsConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PageDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
@@ -106,8 +108,10 @@ public class EmployeeController {
      */
     @GetMapping("/page")
     public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
-        log.info(null);
-        return Result.success(employeeService.page(employeePageQueryDTO));
+        log.info("员工分页查询：{}", employeePageQueryDTO);
+        PageDTO<Employee> p = employeeService.page(employeePageQueryDTO);
+
+        return Result.success(new PageResult(p.getTotal(), p.getList()));
     }
 
     /**

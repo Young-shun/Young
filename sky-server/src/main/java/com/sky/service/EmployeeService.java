@@ -1,13 +1,14 @@
 package com.sky.service;
 
-import com.aliyuncs.ecs.model.v20140526.AttachKeyPairResponse.Result;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.Employee;
 import com.sky.result.PageResult;
 
-public interface EmployeeService {
+public interface EmployeeService extends IService<Employee> {
 
     /**
      * 员工登录
@@ -24,7 +25,7 @@ public interface EmployeeService {
      */
     void save(EmployeeDTO employeeDTO);
 
-    PageResult page(EmployeePageQueryDTO employeePageQueryDTO);
+    PageDTO<Employee> page(EmployeePageQueryDTO employeePageQueryDTO);
 
     void startClose(Integer status, Long id);
 

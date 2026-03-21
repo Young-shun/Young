@@ -1,14 +1,15 @@
 package com.sky.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
@@ -100,7 +101,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // category.setUpdateTime(LocalDateTime.now());
         // category.setUpdateUser(BaseContext.getCurrentId());
 
-        categoryMapper.update(category);
+        categoryMapper.updateById(category);
     }
 
     /**
@@ -116,7 +117,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 // .updateTime(LocalDateTime.now())
                 // .updateUser(BaseContext.getCurrentId())
                 .build();
-        categoryMapper.update(category);
+        categoryMapper.updateById(category);
     }
 
     /**
@@ -126,6 +127,24 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     public List<Category> list(Integer type) {
-        return categoryMapper.list(type);
+
+        return categoryMapper.selectList(new LambdaQueryWrapper<Category>()
+                .eq(Category::getStatus, StatusConstant.ENABLE)
+                .eq(type != null, Category::getType, type)
+                .orderByAsc(Category::getSort)
+                .orderByDesc(Category::getCreateTime));
+    }
+
+    /**
+     * 分类分页查询
+     */
+    @Override
+    public PageDTO<Category> queryCategoryByPage(CategoryPageQueryDTO categoryPageQueryDTO) {
+        // 1.构建条件
+        Page<Category> page = categoryPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
+        // 2.查询
+        page(page);
+        // 3.封装返回
+        return PageDTO.of(page, Category.class);
     }
 }

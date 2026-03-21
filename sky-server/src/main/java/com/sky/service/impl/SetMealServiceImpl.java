@@ -10,14 +10,15 @@ import org.springframework.util.DigestUtils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Dish;
@@ -179,6 +180,16 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
    */
   public List<DishItemVO> getDishItemById(Long id) {
     return setmealMapper.getDishItemBySetmealId(id);
+  }
+
+  @Override
+  public PageDTO<Setmeal> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO) {
+    // 1.构建条件
+    Page<Setmeal> page = setmealPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
+    // 2.查询
+    page(page);
+    // 3.封装返回
+    return PageDTO.of(page, Setmeal.class);
   }
 
 }

@@ -20,8 +20,8 @@ import org.springframework.util.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.OrdersConfirmDTO;
@@ -29,6 +29,7 @@ import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersRejectionDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.AddressBook;
 import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
@@ -56,7 +57,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implements OrderService {
 
   @Autowired
   private OrderMapper orderMapper;
@@ -86,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
   @Transactional
   public OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO) {
     // 先判断地址簿和购物车是否为空
-    AddressBook addressBook = addressBookMapper.getById(ordersSubmitDTO.getAddressBookId());
+    AddressBook addressBook = addressBookMapper.selectById(ordersSubmitDTO.getAddressBookId());
     if (addressBook == null) {
       throw new AddressBookBusinessException(MessageConstant.ADDRESS_BOOK_IS_NULL);
     }
@@ -270,14 +271,15 @@ public class OrderServiceImpl implements OrderService {
     // 当前登录用户id
     Long userId = BaseContext.getCurrentId();
     ordersPageQueryDTO.setUserId(userId);
-    // 开始分页查询
-    PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
-    Page<Orders> page = orderMapper.page(ordersPageQueryDTO);
+    // 1.构建条件
+    Page<Orders> page = ordersPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
+    // 2.查询
+    page(page);
 
     List<OrderVO> list = new ArrayList();
     // 查询出订单明细，并封装入OrderVO进行响应
     if (page != null && page.getTotal() > 0) {
-      for (Orders orders : page) {
+      for (Orders orders : page.getRecords()) {
         Long orderId = orders.getId();// 订单id
 
         // 查询订单明细
@@ -366,11 +368,12 @@ public class OrderServiceImpl implements OrderService {
    * @param ordersPageQueryDTO
    * @return
    */
-  public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
-    PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+  public PageResult queryOrderByPage(OrdersPageQueryDTO ordersPageQueryDTO) {
 
-    Page<Orders> page = orderMapper.page(ordersPageQueryDTO);
-
+    // 1.构建条件
+    Page<Orders> page = ordersPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
+    // 2.查询
+    page(page);
     // 部分订单状态，需要额外返回订单菜品信息，将Orders转化为OrderVO
     List<OrderVO> orderVOList = getOrderVOList(page);
 
@@ -384,7 +387,7 @@ public class OrderServiceImpl implements OrderService {
     // 需要返回订单菜品信息，自定义OrderVO响应结果
     List<OrderVO> orderVOList = new ArrayList<>();
 
-    List<Orders> ordersList = page.getResult();
+    List<Orders> ordersList = page.getRecords();
     if (!CollectionUtils.isEmpty(ordersList)) {
       for (Orders orders : ordersList) {
         // 将共同字段复制到OrderVO
@@ -511,4 +514,5 @@ public class OrderServiceImpl implements OrderService {
     orders.setDeliveryTime(LocalDateTime.now());
     orderMapper.update(orders);
   }
+
 }

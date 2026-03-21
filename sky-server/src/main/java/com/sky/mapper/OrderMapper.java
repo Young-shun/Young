@@ -9,20 +9,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.github.pagehelper.Page;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sky.dto.GoodsSalesDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import com.sky.vo.OrderVO;
 
 @Mapper
-public interface OrderMapper {
-  /**
-   * 插入订单
-   * 
-   * @param order
-   */
-  void insert(Orders order);
+public interface OrderMapper extends BaseMapper<Orders> {
 
   /**
    * 根据订单号和用户id查询订单
@@ -39,14 +33,6 @@ public interface OrderMapper {
    * @param orders
    */
   void update(Orders orders);
-
-  /**
-   * 订单分页查询
-   * 
-   * @param ordersPageQueryDTO
-   * @return
-   */
-  Page<Orders> page(OrdersPageQueryDTO ordersPageQueryDTO);
 
   /**
    * 根据订单id查询订单详情

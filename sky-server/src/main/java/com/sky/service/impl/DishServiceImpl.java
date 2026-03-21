@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
@@ -191,5 +191,15 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
     return dishVOList;
+  }
+
+  @Override
+  public PageDTO<Dish> queryDishByPage(DishPageQueryDTO dishPageQueryDTO) {
+    // 1.构建条件
+    Page<Dish> page = dishPageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
+    // 2.查询
+    page(page);
+    // 3.封装返回
+    return PageDTO.of(page, Dish.class);
   }
 }

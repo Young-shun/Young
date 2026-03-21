@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.dto.PageDTO;
 import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -50,11 +51,9 @@ public class CategoryController {
     @ApiOperation("分类分页查询")
     public Result<PageResult> page(CategoryPageQueryDTO categoryPageQueryDTO) {
         log.info("分页查询：{}", categoryPageQueryDTO);
-
-        Page<Category> p = categoryService
-                .page(new Page<>(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize()));
-
-        return Result.success(new PageResult(p.getTotal(), p.getRecords()));
+        PageDTO<Category> p = categoryService
+                .queryCategoryByPage(categoryPageQueryDTO);
+        return Result.success(new PageResult(p.getTotal(), p.getList()));
     }
 
     /**

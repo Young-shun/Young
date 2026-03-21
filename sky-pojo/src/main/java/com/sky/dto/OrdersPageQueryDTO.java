@@ -3,19 +3,17 @@ package com.sky.dto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.sky.query.PageQuery;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class OrdersPageQueryDTO implements Serializable {
-
-    private int page;
-
-    private int pageSize;
+public class OrdersPageQueryDTO extends PageQuery implements Serializable {
 
     private String number;
 
-    private  String phone;
+    private String phone;
 
     private Integer status;
 
