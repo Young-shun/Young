@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetMealService;
@@ -61,8 +64,10 @@ public class SetMealController {
   @GetMapping("/page")
   public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO) {
     log.info("套餐分页查询，参数：{}", setmealPageQueryDTO);
-    PageResult pageResult = setMealService.pageQuery(setmealPageQueryDTO);
-    return Result.success(pageResult);
+    Page<Setmeal> p = setMealService
+        .page(new Page<>(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize()));
+
+    return Result.success(new PageResult(p.getTotal(), p.getRecords()));
   }
 
   /**

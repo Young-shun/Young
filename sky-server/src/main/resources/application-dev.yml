@@ -16,6 +16,7 @@ sky:
     port: 6379
     database: 0
   wechat:
+    # 以后用到的时候appid secret mechid No Path等换成自己的即可
     appid: wx74d1255221847526
     secret: 0fc345a8c234115e608e836185e65adb
     mchid : 1561414331

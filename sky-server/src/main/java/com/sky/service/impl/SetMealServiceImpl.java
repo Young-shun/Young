@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
@@ -33,7 +36,7 @@ import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
 
 @Service
-public class SetMealServiceImpl implements SetMealService {
+public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> implements SetMealService {
 
   @Autowired
   private SetmealMapper setmealMapper;
@@ -62,27 +65,16 @@ public class SetMealServiceImpl implements SetMealService {
     // 向口味表插入数据
     List<SetmealDish> dishs = setMealDto.getSetmealDishes();
     if (dishs != null && !dishs.isEmpty()) {
-      dishs.forEach(dish -> dish.setSetmealId(setmealId));
-      setmealDishMapper.insertBatch(dishs);
+      // 给每一个dish设置套餐id，同时插入表中
+      dishs.forEach(dish -> {
+        dish.setSetmealId(setmealId);
+        setmealDishMapper.insert(dish);
+      });
     }
   }
 
   /**
-   * 套餐分页查询
-   * 
-   * @param setmealPageQueryDTO
-   * @return
-   */
-  @Override
-  public PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO) {
-    // 开始分页查询
-    PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
-    Page<Setmeal> page = setmealMapper.page(setmealPageQueryDTO);
-    return new PageResult(page.getTotal(), page.getResult());
-  }
-
-  /**
-   * 批量删除菜品
+   * 批量删除
    * 
    * @param ids
    */
@@ -100,8 +92,8 @@ public class SetMealServiceImpl implements SetMealService {
     // dishMapper.deleteById(id);
     // dishFlavorMapper.deleteByDishId(id);
     // }
-    setmealMapper.deleteByIds(ids);
-    setmealDishMapper.deleteBySetmealIds(ids);
+    setmealMapper.deleteBatchIds(ids);
+    setmealDishMapper.deleteBatchIds(ids);
   }
 
   /**
@@ -118,7 +110,8 @@ public class SetMealServiceImpl implements SetMealService {
       return null;
     }
     // 查菜品数据
-    List<SetmealDish> dishes = setmealDishMapper.selectBySetmealId(id);
+    List<SetmealDish> dishes = setmealDishMapper
+        .selectList(new QueryWrapper<SetmealDish>().lambda().eq(SetmealDish::getSetmealId, id));
     SetmealVO setmealVO = new SetmealVO();
     BeanUtils.copyProperties(setmeal, setmealVO);
     setmealVO.setSetmealDishes(dishes);
@@ -133,14 +126,16 @@ public class SetMealServiceImpl implements SetMealService {
     // 修改套餐表基本信息
     Setmeal setmeal = new Setmeal();
     BeanUtils.copyProperties(setmealDTO, setmeal);
-    setmealMapper.update(setmeal);
+    setmealMapper.updateById(setmeal);
     // 删除原有的菜品信息
-    setmealDishMapper.deleteBySetmealIds(List.of(setmeal.getId()));
+    setmealDishMapper.deleteBatchIds(List.of(setmeal.getId()));
     // 插入新的菜品信息
     List<SetmealDish> dishes = setmealDTO.getSetmealDishes();
     if (dishes != null && !dishes.isEmpty()) {
-      dishes.forEach(dish -> dish.setSetmealId(setmeal.getId()));
-      setmealDishMapper.insertBatch(dishes);
+      dishes.forEach(dish -> {
+        dish.setSetmealId(setmeal.getId());
+        setmealDishMapper.insert(dish);
+      });
     }
   }
 
@@ -157,7 +152,7 @@ public class SetMealServiceImpl implements SetMealService {
         // .updateTime(LocalDateTime.now())
         // .updateUser(BaseContext.getCurrentId())
         .build();
-    setmealMapper.update(setmeal);
+    setmealMapper.updateById(setmeal);
   }
 
   /**
@@ -167,7 +162,12 @@ public class SetMealServiceImpl implements SetMealService {
    * @return
    */
   public List<Setmeal> list(Setmeal setmeal) {
-    List<Setmeal> list = setmealMapper.list(setmeal);
+    QueryWrapper<Setmeal> queryWrapper = new QueryWrapper<>();
+    queryWrapper.lambda()
+        .eq(setmeal.getId() != null, Setmeal::getId, setmeal.getId())
+        .like(StringUtils.isNotEmpty(setmeal.getName()), Setmeal::getName, setmeal.getName())
+        .eq(setmeal.getStatus() != null, Setmeal::getStatus, setmeal.getStatus());
+    List<Setmeal> list = setmealMapper.selectList(queryWrapper);
     return list;
   }
 

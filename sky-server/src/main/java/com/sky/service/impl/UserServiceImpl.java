@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sky.constant.MessageConstant;
 import com.sky.dto.UserLoginDTO;
 import com.sky.entity.User;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
   // 微信接口服务地址
   public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session";
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
           .openid(openid)
           .createTime(LocalDateTime.now())
           .build();
-      userMapper.insert(user);// 后绪步骤实现
+      userMapper.insert(user);
     }
 
     // 返回这个用户对象

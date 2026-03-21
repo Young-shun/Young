@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
@@ -20,6 +22,7 @@ import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
 import com.sky.entity.Employee;
+import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.setmealDishMapper;
@@ -32,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class DishServiceImpl implements DishService {
+public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
   @Autowired
   private DishMapper dishMapper;
   @Autowired
@@ -61,20 +64,6 @@ public class DishServiceImpl implements DishService {
   }
 
   /**
-   * 菜品分页查询
-   * 
-   * @param dishPageQueryDTO
-   * @return
-   */
-  @Override
-  public PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO) {
-    // 开始分页查询
-    PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
-    Page<DishVO> page = dishMapper.page(dishPageQueryDTO);
-    return new PageResult(page.getTotal(), page.getResult());
-  }
-
-  /**
    * 批量删除菜品
    * 
    * @param ids
@@ -90,7 +79,8 @@ public class DishServiceImpl implements DishService {
     }
     // 判断是否能够删除，是否被套餐关联
     for (Long id : ids) {
-      int count = setmealDishMapper.countByDishId(id);
+      Long count = Db.lambdaQuery(SetmealDish.class)
+          .eq(SetmealDish::getDishId, id).count();
       if (count > 0) {
         // 当前菜品有在售套餐，不能删除
         throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);

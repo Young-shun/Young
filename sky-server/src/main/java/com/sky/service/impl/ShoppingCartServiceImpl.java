@@ -1,12 +1,16 @@
 package com.sky.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sky.context.BaseContext;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.Dish;
@@ -43,7 +47,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
       // 购物车已存在，更新数量
       ShoppingCart existingCartItem = cartItems.get(0);
       existingCartItem.setNumber(existingCartItem.getNumber() + 1);
-      shoppingCartMapper.updateNumberById(existingCartItem);
+      shoppingCartMapper.updateById(existingCartItem);
     } else {
       // 判断是否是套餐
       if (shoppingCart.getSetmealId() != null) {
@@ -82,11 +86,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
   @Override
   public void cleanCart() {
     Long userId = BaseContext.getCurrentId();
-    ShoppingCart shoppingCart = new ShoppingCart();
-    shoppingCart.setUserId(userId);
-    shoppingCartMapper.clean(shoppingCart);
+    Map<String, Object> columnMap = new HashMap<>();
+    columnMap.put("user_id", userId);
+    shoppingCartMapper.deleteByMap(columnMap);
   }
 
+  /**
+   * 删除购物车商品
+   */
   @Override
   public void deleteSubItem(ShoppingCartDTO shoppingCartDTO) {
     ShoppingCart shoppingCart = new ShoppingCart();
@@ -96,9 +103,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     shoppingCart = shoppingCartMapper.list(shoppingCart).get(0);
     shoppingCart.setNumber(shoppingCart.getNumber() - 1);
     if (shoppingCart.getNumber() > 0) {
-      shoppingCartMapper.updateNumberById(shoppingCart);
+      shoppingCartMapper.updateById(shoppingCart);
     } else {
-      shoppingCartMapper.deleteSubItem(shoppingCart);
+      QueryWrapper<ShoppingCart> wrapper = new QueryWrapper<>();
+      wrapper.eq(userId != null, "user_id", userId)
+          .eq(shoppingCart.getDishId() != null, "dish_id", shoppingCart.getDishId())
+          .eq(shoppingCart.getSetmealId() != null, "setmeal_id", shoppingCart.getSetmealId())
+          .eq(shoppingCart.getDishFlavor() != null, "dish_flavor", shoppingCart.getDishFlavor());
+      shoppingCartMapper.delete(wrapper);
     }
   }
 

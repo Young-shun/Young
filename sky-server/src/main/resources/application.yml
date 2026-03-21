@@ -9,20 +9,23 @@ spring:
   datasource:
     druid:
       driver-class-name: ${sky.datasource.driver-class-name}
-      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
   redis:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
     database: ${sky.redis.database}
-mybatis:
+mybatis-plus:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
   configuration:
     #开启驼峰命名
     map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto # 全局id类型为自增长
 
 logging:
   level:
@@ -61,3 +64,7 @@ sky:
     weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
     notifyUrl: ${sky.wechat.notifyUrl}
     refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+  shop:
+    address: 北京市海淀区上地十街10号
+  baidu:
+    ak: 9eptLzUStYTTWzqsPwGF9XiCfuZDLUZp

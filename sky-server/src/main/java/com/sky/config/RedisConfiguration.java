@@ -6,6 +6,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,6 +28,15 @@ public class RedisConfiguration {
     template.setConnectionFactory(redisConnectionFactory);
     // 序列化配置
     template.setKeySerializer(new StringRedisSerializer());
+
+    // Set value serializer to Jackson2JsonRedisSerializer
+    PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder().allowIfSubType(Object.class).build();
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
+    Jackson2JsonRedisSerializer<Object> valueSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+    valueSerializer.setObjectMapper(objectMapper);
+    template.setValueSerializer(valueSerializer);
+
     return template;
   }
 

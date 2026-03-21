@@ -1,5 +1,7 @@
 package com.sky.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
@@ -8,6 +10,8 @@ import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.CategoryMapper;
 import com.sky.mapper.DishMapper;
@@ -26,7 +30,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -58,35 +62,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * 分页查询
-     * 
-     * @param categoryPageQueryDTO
-     * @return
-     */
-    public PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO) {
-        PageHelper.startPage(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
-        // 下一条sql进行分页，自动加入limit关键字分页
-        Page<Category> page = categoryMapper.pageQuery(categoryPageQueryDTO);
-        return new PageResult(page.getTotal(), page.getResult());
-    }
-
-    /**
      * 根据id删除分类
      * 
      * @param id
      */
     public void deleteById(Long id) {
         // 查询当前分类是否关联了菜品，如果关联了就抛出业务异常
-        Integer count = dishMapper.countByCategoryId(id);
+        Long count = Db.lambdaQuery(Dish.class)
+                .eq(Dish::getCategoryId, id).count();
         if (count > 0) {
             // 当前分类下有菜品，不能删除
             throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
         }
 
         // 查询当前分类是否关联了套餐，如果关联了就抛出业务异常
-        count = setmealMapper.countByCategoryId(id);
+        count = Db.lambdaQuery(Setmeal.class)
+                .eq(Setmeal::getCategoryId, id).count();
         if (count > 0) {
-            // 当前分类下有菜品，不能删除
+            // 当前分类下有套餐，不能删除
             throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
         }
 

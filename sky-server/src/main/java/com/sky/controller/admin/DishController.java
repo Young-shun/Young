@@ -3,8 +3,10 @@ package com.sky.controller.admin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -64,8 +66,10 @@ public class DishController {
   @GetMapping("/page")
   public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
     log.info("菜品分页查询，参数：{}", dishPageQueryDTO);
-    PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
-    return Result.success(pageResult);
+    Page<Dish> p = dishService
+        .page(new Page<>(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize()));
+
+    return Result.success(new PageResult(p.getTotal(), p.getRecords()));
   }
 
   /**
