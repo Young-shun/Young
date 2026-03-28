@@ -1,0 +1,77 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 192.168.100.128:8848
+    gateway:
+      routes:
+        - id: category
+          uri: lb://sky-take-out-category
+          predicates:
+            - Path=/user/category/**,/admin/category/**
+        - id: dish
+          uri: lb://sky-take-out-dish
+          predicates:
+            - Path=/user/dish/**,/admin/dish/**
+        - id: setmeal
+          uri: lb://sky-take-out-setmeal
+          predicates:
+            - Path=/user/setmeal/**,/admin/setmeal/**
+        - id: order
+          uri: lb://sky-take-out-order
+          predicates:
+            - Path=/user/order/**,/admin/order/**
+        - id: order-ws
+          uri: lb:ws://sky-take-out-order
+          predicates:
+            - Path=/ws/**
+        - id: shop
+          uri: lb://sky-take-out-shop
+          predicates:
+            - Path=/user/shop/**,/admin/shop/**
+        - id: employee
+          uri: lb://sky-take-out-employee
+          predicates:
+            - Path=/admin/employee/**
+        - id: workspace
+          uri: lb://sky-take-out-workspace
+          predicates:
+            - Path=/admin/workspace/**
+        - id: address
+          uri: lb://sky-take-out-address
+          predicates:
+            - Path=/user/address/**,/user/addressBook/**
+        - id: report
+          uri: lb://sky-take-out-report
+          predicates:
+            - Path=/admin/report/**
+        - id: shoppingcart
+          uri: lb://sky-take-out-shoppingcart
+          predicates:
+            - Path=/user/shoppingCart/**,/user/shoppingcart/**
+        - id: user
+          uri: lb://sky-take-out-user
+          predicates:
+            - Path=/user/user/**
+sky:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: itcast
+    # 设置jwt过期时间
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+    # 设置jwt签名加密时使用的秘钥
+    user-secret-key: itcast
+    # 设置jwt过期时间
+    user-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authentication
+    excludePaths: # 无需登录校验的路径
+      - /user/user/login
+      - /user/shop/status
+      - /admin/employee/login

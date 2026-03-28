@@ -1,6 +1,9 @@
 package com.sky.properties;
 
 import lombok.Data;
+
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +19,7 @@ public class JwtProperties {
     private long adminTtl;
     private String adminTokenName;
 
+    private List<String> excludePaths;
     /**
      * 用户端微信用户生成jwt令牌相关配置
      */

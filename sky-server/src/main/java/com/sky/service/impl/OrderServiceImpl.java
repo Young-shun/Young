@@ -251,6 +251,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
     webSocketServer.sendToAllClient(JSON.toJSONString(map));
   }
 
+  /**
+   * 提醒订单
+   *
+   * @param id
+   */
   @Override
   public void reminder(Long id) {
     // 通过WebSocket实现来单提醒，向客户端浏览器推送消息

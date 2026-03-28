@@ -1,0 +1,12 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.sky.config.MybatisConfiguration,\
+  com.sky.config.RedisConfiguration,\
+  com.sky.config.WebMvcConfiguration,\
+  com.sky.config.OssConfiguration,\
+  com.sky.config.WebSocketConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.sky.config.MybatisConfiguration,\
+  com.sky.config.RedisConfiguration,\
+  com.sky.config.WebMvcConfiguration,\
+  com.sky.config.OssConfiguration,\
+  com.sky.config.WebSocketConfiguration

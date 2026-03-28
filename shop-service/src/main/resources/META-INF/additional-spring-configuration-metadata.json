@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "sky.redis.host",
+  "type": "java.lang.String",
+  "description": "A description for 'sky.redis.host'"
+}]}
