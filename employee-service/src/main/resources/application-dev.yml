@@ -16,7 +16,7 @@
     port: 6379
     database: 4
   wechat:
-    # 浠ュ悗鐢ㄥ埌鐨勬椂鍊檃ppid secret mechid No Path绛夋崲鎴愯嚜宸辩殑鍗冲彲
+    # 后续请将 appid、secret、mchid、证书路径等替换为你自己的配置
     appid: wx74d1255221847526
     secret: 0fc345a8c234115e608e836185e65adb
     mchid : 1561414331
@@ -26,4 +26,5 @@
     weChatPayCertFilePath: D:\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
     notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
     refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php
+
 

@@ -22,7 +22,7 @@ sky:
     port: 6379
     database: 12
   wechat:
-    # 浠ュ悗鐢ㄥ埌鐨勬椂鍊檃ppid secret mechid No Path绛夋崲鎴愯嚜宸辩殑鍗冲彲
+    # 后续请将 appid、secret、mchid、证书路径等替换为你自己的配置
     appid: wx74d1255221847526
     secret: 0fc345a8c234115e608e836185e65adb
     mchid : 1561414331
@@ -36,4 +36,5 @@ sky:
     address: 鍖椾含甯傛捣娣€鍖轰笂鍦板崄琛?0鍙?
   baidu:
     ak: 9eptLzUStYTTWzqsPwGF9XiCfuZDLUZp
+
 

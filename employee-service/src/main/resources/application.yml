@@ -29,15 +29,15 @@ spring:
         dashboard: localhost:9090
       http-method-specify: true # 开启请求方式前缀
 mybatis-plus:
-  #mapper-plus閰嶇疆鏂囦欢
+  # mybatis-plus 配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
   configuration:
-    #寮€鍚┘宄板懡鍚?
+    # 开启驼峰命名
     map-underscore-to-camel-case: true
   global-config:
     db-config:
-      id-type: auto # 鍏ㄥ眬id绫诲瀷涓鸿嚜澧為暱
+      id-type: auto # 全局id类型为自增长
 
 logging:
   level:
@@ -49,19 +49,19 @@ logging:
 
 sky:
   jwt:
-    # 璁剧疆jwt绛惧悕鍔犲瘑鏃朵娇鐢ㄧ殑绉橀挜
+    # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itcast
-    # 璁剧疆jwt杩囨湡鏃堕棿
+    # 设置jwt过期时间
     admin-ttl: 7200000
-    # 璁剧疆鍓嶇浼犻€掕繃鏉ョ殑浠ょ墝鍚嶇О
+    # 设置前端传递过来的令牌名称
     admin-token-name: token
-    # 璁剧疆jwt绛惧悕鍔犲瘑鏃朵娇鐢ㄧ殑绉橀挜
+    # 设置jwt签名加密时使用的秘钥
     user-secret-key: itcast
-    # 璁剧疆jwt杩囨湡鏃堕棿
+    # 设置jwt过期时间
     user-ttl: 7200000
-    # 璁剧疆鍓嶇浼犻€掕繃鏉ョ殑浠ょ墝鍚嶇О
+    # 设置前端传递过来的令牌名称
     user-token-name: authentication
-    excludePaths: # 鏃犻渶鐧诲綍鏍￠獙鐨勮矾寰?
+    excludePaths: # 无需登录校验的路径
       - /user/user/login
       - /user/shop/status
       - /admin/employee/login
@@ -87,5 +87,6 @@ sky:
 feign:
   sentinel:
     enabled: true # 开启feign对sentinel的支持
+
 
 

@@ -16,6 +16,15 @@ spring:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
     database: ${sky.redis.database}
+  rabbitmq:
+    host: 192.168.100.128 # 你的虚拟机IP
+    port: 5672 # 端口
+    virtual-host: /take-out # 虚拟主机
+    username: yang # 用户名
+    password: 123 # 密码
+    listener:
+      simple:
+        acknowledge-mode: auto # 自动ack
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -27,17 +36,17 @@ spring:
     sentinel:
       transport:
         dashboard: localhost:9090
-      http-method-specify: true # 寮€鍚姹傛柟寮忓墠缂€
+      http-method-specify: true # 开启请求方式前缀
 mybatis-plus:
-  #mapper-plus閰嶇疆鏂囦欢
+  # mybatis-plus 配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
   configuration:
-    #寮€鍚┘宄板懡鍚?
+    # 开启驼峰命名
     map-underscore-to-camel-case: true
   global-config:
     db-config:
-      id-type: auto # 鍏ㄥ眬id绫诲瀷涓鸿嚜澧為暱
+      id-type: auto # 全局id类型为自增长
 
 logging:
   level:
@@ -69,6 +78,7 @@ sky:
     ak: 9eptLzUStYTTWzqsPwGF9XiCfuZDLUZp
 feign:
   sentinel:
-    enabled: true # 寮€鍚痜eign瀵箂entinel鐨勬敮鎸?
+    enabled: true # 开启feign对sentinel的支持
+
 
 

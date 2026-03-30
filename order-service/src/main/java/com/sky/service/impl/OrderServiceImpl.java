@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -59,6 +60,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
   private AddressClient addressClient;
   @Autowired
   private WebSocketServer webSocketServer;
+  @Autowired
+  private RabbitTemplate rabbitTemplate;
 
   /**
    * 作用: 提交订单，校验地址与购物车后落库订单和明细，并清空购物车。
@@ -112,7 +115,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
       orderDetailMapper.insert(orderDetail);
     }
 
-    shoppingCartClient.cleanCart();
+    // 5.清空购物车
+    try {
+      rabbitTemplate.convertAndSend("submit.direct", "submit.success", userId);
+    } catch (Exception e) {
+      log.error("发送订单提交成功消息失败, orderId={}", order.getId(), e);
+      // 发送消息失败不影响主流程，记录日志后继续执行
+    }
 
     return OrderSubmitVO.builder()
         .id(order.getId())

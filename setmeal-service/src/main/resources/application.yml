@@ -20,7 +20,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   application:
-    name: sky-take-out-setmeal # 鏈嶅姟鍚嶇О
+    name: sky-take-out-setmeal  # 服务名称
   cloud:
     nacos:
       server-addr: 192.168.100.128:8848
@@ -29,15 +29,15 @@ spring:
         dashboard: localhost:9090
       http-method-specify: true # 开启请求方式前缀
 mybatis-plus:
-  #mapper-plus閰嶇疆鏂囦欢
+  # mybatis-plus 配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
   configuration:
-    #寮€鍚┘宄板懡鍚?
+    # 开启驼峰命名
     map-underscore-to-camel-case: true
   global-config:
     db-config:
-      id-type: auto # 鍏ㄥ眬id绫诲瀷涓鸿嚜澧為暱
+      id-type: auto # 全局id类型为自增长
 
 logging:
   level:
@@ -70,5 +70,6 @@ sky:
 feign:
   sentinel:
     enabled: true # 开启feign对sentinel的支持
+
 
 

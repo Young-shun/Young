@@ -1,4 +1,4 @@
-sky:
+﻿sky:
   alioss:
     endpoint: ${sky.alioss.endpoint}
     access-key-id: ${sky.alioss.access-key-id}
