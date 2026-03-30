@@ -15,6 +15,11 @@ import feign.codec.Decoder;
 public class FeignJacksonConfig {
 
   @Bean
+  /**
+   * 作用: 执行feignDecoder相关逻辑。
+   * 输入: 无。
+   * 输出: Decoder。
+   */
   public Decoder feignDecoder() {
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
     converter.setObjectMapper(new JacksonObjectMapper());

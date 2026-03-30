@@ -24,6 +24,11 @@ public class CategoryController {
 
     @PostMapping
     @ApiOperation("新增分类")
+    /**
+     * 作用: 执行save相关逻辑。
+     * 输入: @RequestBody com.sky.dto.CategoryDTO categoryDTO。
+     * 输出: Result<String>。
+     */
     public Result<String> save(@RequestBody com.sky.dto.CategoryDTO categoryDTO) {
         log.info("新增分类：{}", categoryDTO);
         categoryService.save(categoryDTO);
@@ -32,6 +37,11 @@ public class CategoryController {
 
     @GetMapping("/page")
     @ApiOperation("分类分页查询")
+    /**
+     * 作用: 执行page相关逻辑。
+     * 输入: CategoryPageQueryDTO categoryPageQueryDTO。
+     * 输出: Result<PageResult>。
+     */
     public Result<PageResult> page(CategoryPageQueryDTO categoryPageQueryDTO) {
         log.info("分页查询：{}", categoryPageQueryDTO);
         Page<Category> p = categoryService
@@ -41,6 +51,11 @@ public class CategoryController {
 
     @DeleteMapping
     @ApiOperation("删除分类")
+    /**
+     * 作用: 执行deleteById相关逻辑。
+     * 输入: @RequestParam("id") Long id。
+     * 输出: Result<String>。
+     */
     public Result<String> deleteById(@RequestParam("id") Long id) {
         log.info("删除分类：{}", id);
         categoryService.deleteById(id);
@@ -49,6 +64,11 @@ public class CategoryController {
 
     @PutMapping
     @ApiOperation("修改分类")
+    /**
+     * 作用: 执行update相关逻辑。
+     * 输入: @RequestBody com.sky.dto.CategoryDTO categoryDTO。
+     * 输出: Result<String>。
+     */
     public Result<String> update(@RequestBody com.sky.dto.CategoryDTO categoryDTO) {
         categoryService.update(categoryDTO);
         return Result.success();
@@ -56,6 +76,11 @@ public class CategoryController {
 
     @PostMapping("/status/{status}")
     @ApiOperation("启用/禁用分类")
+    /**
+     * 作用: 执行startOrStop相关逻辑。
+     * 输入: @PathVariable("status") Integer status, Long id。
+     * 输出: Result<String>。
+     */
     public Result<String> startOrStop(@PathVariable("status") Integer status, Long id) {
         categoryService.startOrStop(status, id);
         return Result.success();
@@ -63,6 +88,11 @@ public class CategoryController {
 
     @GetMapping("/list")
     @ApiOperation("根据类型查询分类")
+    /**
+     * 作用: 执行list相关逻辑。
+     * 输入: Integer type。
+     * 输出: Result<List<Category>>。
+     */
     public Result<List<Category>> list(Integer type) {
         List<Category> list = categoryService.list(type);
         return Result.success(list);

@@ -71,6 +71,11 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  /**
+   * 作用: 执行userStatistics相关逻辑。
+   * 输入: LocalDate begin, LocalDate end。
+   * 输出: UserReportVO。
+   */
   public UserReportVO userStatistics(LocalDate begin, LocalDate end) {
     UserReportVO user = new UserReportVO();
 

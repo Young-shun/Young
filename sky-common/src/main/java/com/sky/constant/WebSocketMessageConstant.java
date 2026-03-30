@@ -2,6 +2,11 @@ package com.sky.constant;
 
 public final class WebSocketMessageConstant {
 
+  /**
+   * 作用: 执行WebSocketMessageConstant相关逻辑。
+   * 输入: 无。
+   * 输出: private。
+   */
   private WebSocketMessageConstant() {
   }
 

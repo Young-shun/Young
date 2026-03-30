@@ -21,6 +21,11 @@ public class DishRedisConfig {
 
   @Bean
   @org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean(RedisTemplate.class)
+  /**
+   * 作用: 执行redisTemplate相关逻辑。
+   * 输入: RedisConnectionFactory redisConnectionFactory。
+   * 输出: RedisTemplate<String, Object>。
+   */
   public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
     log.info("[Dish] 创建本地 RedisTemplate 对象...");
     RedisTemplate<String, Object> template = new RedisTemplate<>();

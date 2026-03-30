@@ -12,6 +12,11 @@ import com.sky.entity.Orders;
 public interface OrderMapper extends BaseMapper<Orders> {
 
   @Select("select sum(amount) from orders where status = #{status} and order_time >= #{beginTime} and order_time < #{endTime} ")
+  /**
+   * 作用: 执行getTotalAmount相关逻辑。
+   * 输入: LocalDateTime beginTime, LocalDateTime endTime, Integer status。
+   * 输出: Double。
+   */
   Double getTotalAmount(LocalDateTime beginTime, LocalDateTime endTime, Integer status);
 
   List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);

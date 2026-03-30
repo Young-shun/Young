@@ -16,6 +16,11 @@ import com.sky.api.config.ApiCommonWebMvcConfig;
 @Import(ApiCommonWebMvcConfig.class)
 @ComponentScan(basePackages = "com.sky")
 public class SetmealApplication {
+    /**
+     * 作用: 执行main相关逻辑。
+     * 输入: String[] args。
+     * 输出: 无。
+     */
     public static void main(String[] args) {
         SpringApplication.run(SetmealApplication.class, args);
     }

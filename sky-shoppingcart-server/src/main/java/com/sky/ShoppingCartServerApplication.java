@@ -18,6 +18,11 @@ import com.sky.api.config.ApiCommonWebMvcConfig;
 @EnableFeignClients(basePackages = "com.sky.api.client")
 @Import(ApiCommonWebMvcConfig.class)
 public class ShoppingCartServerApplication {
+    /**
+     * 作用: 执行main相关逻辑。
+     * 输入: String[] args。
+     * 输出: 无。
+     */
     public static void main(String[] args) {
         SpringApplication.run(ShoppingCartServerApplication.class, args);
         log.info("Shopping cart server started");

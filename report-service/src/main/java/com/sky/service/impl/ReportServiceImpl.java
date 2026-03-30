@@ -31,6 +31,11 @@ public class ReportServiceImpl implements ReportService {
   private UserClient userClient;
 
   @Override
+  /**
+   * 作用: 执行turnOver相关逻辑。
+   * 输入: LocalDate begin, LocalDate end。
+   * 输出: TurnoverReportVO。
+   */
   public TurnoverReportVO turnOver(LocalDate begin, LocalDate end) {
     List<LocalDate> dateList = new ArrayList<>();
     List<String> turnoverList = new ArrayList<>();
@@ -49,6 +54,11 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  /**
+   * 作用: 执行userStatistics相关逻辑。
+   * 输入: LocalDate begin, LocalDate end。
+   * 输出: UserReportVO。
+   */
   public UserReportVO userStatistics(LocalDate begin, LocalDate end) {
     List<LocalDate> dateList = new ArrayList<>();
     List<String> totalUserList = new ArrayList<>();
@@ -71,6 +81,11 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  /**
+   * 作用: 执行ordersStatistics相关逻辑。
+   * 输入: LocalDate begin, LocalDate end。
+   * 输出: OrderReportVO。
+   */
   public OrderReportVO ordersStatistics(LocalDate begin, LocalDate end) {
     List<LocalDate> dateList = new ArrayList<>();
     List<String> orderCountList = new ArrayList<>();
@@ -102,6 +117,11 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  /**
+   * 作用: 执行top10相关逻辑。
+   * 输入: LocalDate begin, LocalDate end。
+   * 输出: SalesTop10ReportVO。
+   */
   public SalesTop10ReportVO top10(LocalDate begin, LocalDate end) {
     LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
     LocalDateTime endTime = LocalDateTime.of(end.plusDays(1), LocalTime.MIN);
@@ -116,6 +136,11 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  /**
+   * 作用: 执行exportBusinessData相关逻辑。
+   * 输入: HttpServletResponse response。
+   * 输出: 无。
+   */
   public void exportBusinessData(HttpServletResponse response) {
     // no-op for now
   }

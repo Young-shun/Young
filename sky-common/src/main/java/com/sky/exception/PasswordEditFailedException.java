@@ -5,6 +5,11 @@ package com.sky.exception;
  */
 public class PasswordEditFailedException extends BaseException{
 
+    /**
+     * 作用: 执行PasswordEditFailedException相关逻辑。
+     * 输入: String msg。
+     * 输出: public。
+     */
     public PasswordEditFailedException(String msg){
         super(msg);
     }

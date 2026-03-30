@@ -21,22 +21,42 @@ public class WebSocketServer {
   private static Map<String, Session> sessionMap = new HashMap<>();
 
   @OnOpen
+  /**
+   * 作用: 执行onOpen相关逻辑。
+   * 输入: Session session, @PathParam("sid") String sid。
+   * 输出: 无。
+   */
   public void onOpen(Session session, @PathParam("sid") String sid) {
     System.out.println("客户端：" + sid + "建立连接");
     sessionMap.put(sid, session);
   }
 
   @OnMessage
+  /**
+   * 作用: 执行onMessage相关逻辑。
+   * 输入: String message, @PathParam("sid") String sid。
+   * 输出: 无。
+   */
   public void onMessage(String message, @PathParam("sid") String sid) {
     System.out.println("收到来自客户端：" + sid + "的信息:" + message);
   }
 
   @OnClose
+  /**
+   * 作用: 执行onClose相关逻辑。
+   * 输入: @PathParam("sid") String sid。
+   * 输出: 无。
+   */
   public void onClose(@PathParam("sid") String sid) {
     System.out.println("连接断开:" + sid);
     sessionMap.remove(sid);
   }
 
+  /**
+   * 作用: 执行sendToAllClient相关逻辑。
+   * 输入: String message。
+   * 输出: 无。
+   */
   public void sendToAllClient(String message) {
     Collection<Session> sessions = sessionMap.values();
     for (Session session : sessions) {

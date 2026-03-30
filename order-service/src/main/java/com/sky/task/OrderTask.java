@@ -21,6 +21,11 @@ public class OrderTask {
   private OrderMapper orderMapper;
 
   @Scheduled(cron = "0 0/1 * * * ?")
+  /**
+   * 作用: 执行processTimeoutOrders相关逻辑。
+   * 输入: 无。
+   * 输出: 无。
+   */
   public void processTimeoutOrders() {
     log.info("处理支付超时订单");
     LocalDateTime timeoutTime = LocalDateTime.now().plusMinutes(-15);
@@ -39,6 +44,11 @@ public class OrderTask {
   }
 
   @Scheduled(cron = "0 0 1 * * ?")
+  /**
+   * 作用: 执行processDELIVERYOrders相关逻辑。
+   * 输入: 无。
+   * 输出: 无。
+   */
   public void processDELIVERYOrders() {
     log.info("处理已发货订单");
     LocalDateTime timeoutTime = LocalDateTime.now().plusMinutes(-60);

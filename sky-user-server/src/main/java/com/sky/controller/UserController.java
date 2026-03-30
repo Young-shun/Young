@@ -72,6 +72,11 @@ public class UserController {
   }
 
   @GetMapping("/user/newCount")
+  /**
+   * 作用: 执行newCount相关逻辑。
+   * 输入: LocalDateTime begin, LocalDateTime end。
+   * 输出: Result<Long>。
+   */
   public Result<Long> newCount(LocalDateTime begin, LocalDateTime end) {
     Long count = userMapper.selectCount(new LambdaQueryWrapper<User>()
         .ge(User::getCreateTime, begin)
@@ -80,6 +85,11 @@ public class UserController {
   }
 
   @GetMapping("/user/totalCount")
+  /**
+   * 作用: 执行totalCount相关逻辑。
+   * 输入: LocalDateTime end。
+   * 输出: Result<Long>。
+   */
   public Result<Long> totalCount(LocalDateTime end) {
     Long count = userMapper.selectCount(new LambdaQueryWrapper<User>()
         .lt(User::getCreateTime, end));

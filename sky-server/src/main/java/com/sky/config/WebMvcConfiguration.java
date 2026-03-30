@@ -84,6 +84,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
     @Override
+    /**
+     * 作用: 执行extendMessageConverters相关逻辑。
+     * 输入: List<HttpMessageConverter<?>> converters。
+     * 输出: 无。
+     */
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         log.info("开始注册自定义消息转换器...");
         // 创建一个消息转换器对象

@@ -43,6 +43,11 @@ public class SetMealController {
 
   @PostMapping
   @CacheEvict(cacheNames = "Setmeals", key = "#setMealDto.categoryId")
+  /**
+   * 作用: 执行createSetMeal相关逻辑。
+   * 输入: @RequestBody SetmealDTO setMealDto。
+   * 输出: Result<String>。
+   */
   public Result<String> createSetMeal(@RequestBody SetmealDTO setMealDto) {
     log.info("Creating set meal: {}", setMealDto);
     setMealService.createSetMeal(setMealDto);
@@ -50,6 +55,11 @@ public class SetMealController {
   }
 
   @GetMapping("/page")
+  /**
+   * 作用: 执行page相关逻辑。
+   * 输入: SetmealPageQueryDTO setmealPageQueryDTO。
+   * 输出: Result<PageResult>。
+   */
   public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO) {
     log.info("套餐分页查询，参数：{}", setmealPageQueryDTO);
     Page<SetmealVO> p = setMealService.querySetmealByPage(setmealPageQueryDTO);
@@ -59,6 +69,11 @@ public class SetMealController {
 
   @DeleteMapping
   @CacheEvict(cacheNames = "Setmeals", allEntries = true)
+  /**
+   * 作用: 执行delete相关逻辑。
+   * 输入: @RequestParam List<Long> ids。
+   * 输出: Result<String>。
+   */
   public Result<String> delete(@RequestParam List<Long> ids) {
     log.info("删除套餐，id：{}", ids);
     setMealService.delete(ids);
@@ -66,6 +81,11 @@ public class SetMealController {
   }
 
   @GetMapping("/{id}")
+  /**
+   * 作用: 执行getById相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Result<SetmealVO>。
+   */
   public Result<SetmealVO> getById(@PathVariable Long id) {
     SetmealVO setmeal = setMealService.getByIdWithDish(id);
     return Result.success(setmeal);
@@ -73,12 +93,22 @@ public class SetMealController {
 
   // Lightweight endpoint for Feign clients to fetch raw Setmeal entity
   @GetMapping("/entity/{id}")
+  /**
+   * 作用: 执行entityById相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Setmeal。
+   */
   public Setmeal entityById(@PathVariable Long id) {
     return setMealService.getByIdEntity(id);
   }
 
   @PutMapping
   @CacheEvict(cacheNames = "Setmeals", allEntries = true)
+  /**
+   * 作用: 执行update相关逻辑。
+   * 输入: @RequestBody SetmealDTO setmealDTO。
+   * 输出: Result<String>。
+   */
   public Result<String> update(@RequestBody SetmealDTO setmealDTO) {
     log.info("更新套餐，参数：{}", setmealDTO);
     setMealService.updateWithDish(setmealDTO);
@@ -87,6 +117,11 @@ public class SetMealController {
 
   @PostMapping("/status/{status}")
   @CacheEvict(cacheNames = "Setmeals", allEntries = true)
+  /**
+   * 作用: 执行startOrStop相关逻辑。
+   * 输入: @PathVariable("status") Integer status, Long id。
+   * 输出: Result<String>。
+   */
   public Result<String> startOrStop(@PathVariable("status") Integer status, Long id) {
     setMealService.startOrStop(status, id);
     return Result.success();

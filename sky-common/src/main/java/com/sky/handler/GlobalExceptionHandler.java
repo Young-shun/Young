@@ -17,12 +17,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler
+  /**
+   * 作用: 执行exceptionHandler相关逻辑。
+   * 输入: BaseException ex。
+   * 输出: Result。
+   */
   public Result exceptionHandler(BaseException ex) {
     log.error("异常信息：{}", ex.getMessage());
     return Result.error(ex.getMessage());
   }
 
   @ExceptionHandler
+  /**
+   * 作用: 执行exceptionHandler相关逻辑。
+   * 输入: SQLIntegrityConstraintViolationException ex。
+   * 输出: Result。
+   */
   public Result exceptionHandler(SQLIntegrityConstraintViolationException ex) {
     log.error("异常信息：{}", ex.getMessage());
     if (ex.getMessage().contains("Duplicate entry")) {

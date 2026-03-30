@@ -12,6 +12,11 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 @Configuration
 public class MybatisConfiguration {
   @Bean
+  /**
+   * 作用: 执行mybatisPlusInterceptor相关逻辑。
+   * 输入: 无。
+   * 输出: MybatisPlusInterceptor。
+   */
   public MybatisPlusInterceptor mybatisPlusInterceptor() {
     // 初始化核心插件
     MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();

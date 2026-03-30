@@ -12,6 +12,11 @@ import java.lang.annotation.ElementType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AutoFill {
   // 操作类型
+  /**
+   * 作用: 执行value相关逻辑。
+   * 输入: 无。
+   * 输出: OperationType。
+   */
   OperationType value();
 
 }

@@ -25,6 +25,11 @@ public class ShopController {
   private RedisTemplate<String, Integer> redisTemplate;
 
   @GetMapping("/status")
+  /**
+   * 作用: 执行getStatus相关逻辑。
+   * 输入: 无。
+   * 输出: Result<Integer>。
+   */
   public Result<Integer> getStatus() {
     log.info("获取商店状态");
     Integer status = (Integer) redisTemplate.opsForValue().get(Key);

@@ -27,6 +27,11 @@ public class WorkSpaceController {
 
     @GetMapping("/businessData")
     @ApiOperation("get business data today")
+    /**
+     * 作用: 执行businessData相关逻辑。
+     * 输入: 无。
+     * 输出: Result<BusinessDataVO>。
+     */
     public Result<BusinessDataVO> businessData(){
         LocalDateTime begin = LocalDateTime.now().with(LocalTime.MIN);
         LocalDateTime end = LocalDateTime.now().with(LocalTime.MAX);
@@ -37,18 +42,33 @@ public class WorkSpaceController {
 
     @GetMapping("/overviewOrders")
     @ApiOperation("order overview")
+    /**
+     * 作用: 执行orderOverView相关逻辑。
+     * 输入: 无。
+     * 输出: Result<OrderOverViewVO>。
+     */
     public Result<OrderOverViewVO> orderOverView(){
         return Result.success(workspaceService.getOrderOverView());
     }
 
     @GetMapping("/overviewDishes")
     @ApiOperation("dish overview")
+    /**
+     * 作用: 执行dishOverView相关逻辑。
+     * 输入: 无。
+     * 输出: Result<DishOverViewVO>。
+     */
     public Result<DishOverViewVO> dishOverView(){
         return Result.success(workspaceService.getDishOverView());
     }
 
     @GetMapping("/overviewSetmeals")
     @ApiOperation("setmeal overview")
+    /**
+     * 作用: 执行setmealOverView相关逻辑。
+     * 输入: 无。
+     * 输出: Result<SetmealOverViewVO>。
+     */
     public Result<SetmealOverViewVO> setmealOverView(){
         return Result.success(workspaceService.getSetmealOverView());
     }

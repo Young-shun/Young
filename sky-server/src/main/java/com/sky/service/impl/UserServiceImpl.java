@@ -34,6 +34,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
   private UserMapper userMapper;
 
   @Override
+  /**
+   * 作用: 执行login相关逻辑。
+   * 输入: UserLoginDTO userLoginDTO。
+   * 输出: User。
+   */
   public User login(UserLoginDTO userLoginDTO) {
     String openid = getOpenid(userLoginDTO.getCode());
     // 判断openid是否为空，如果为空表示登录失败，抛出业务异常

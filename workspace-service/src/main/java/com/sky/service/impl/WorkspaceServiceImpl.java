@@ -40,6 +40,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   private SetmealClient setmealClient;
 
   @Override
+  /**
+   * 作用: 执行getBusinessData相关逻辑。
+   * 输入: LocalDateTime begin, LocalDateTime end。
+   * 输出: BusinessDataVO。
+   */
   public BusinessDataVO getBusinessData(LocalDateTime begin, LocalDateTime end) {
     LocalDate beginDate = begin.toLocalDate();
     LocalDate endDate = end.toLocalDate();
@@ -73,6 +78,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
+  /**
+   * 作用: 执行getOrderOverView相关逻辑。
+   * 输入: 无。
+   * 输出: OrderOverViewVO。
+   */
   public OrderOverViewVO getOrderOverView() {
     LocalDateTime begin = LocalDateTime.now().with(LocalTime.MIN);
     LocalDateTime end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN);
@@ -91,6 +101,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
+  /**
+   * 作用: 执行getDishOverView相关逻辑。
+   * 输入: 无。
+   * 输出: DishOverViewVO。
+   */
   public DishOverViewVO getDishOverView() {
     int sold = value(dishClient.countByStatus(StatusConstant.ENABLE));
     int discontinued = value(dishClient.countByStatus(StatusConstant.DISABLE));
@@ -98,16 +113,31 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
+  /**
+   * 作用: 执行getSetmealOverView相关逻辑。
+   * 输入: 无。
+   * 输出: SetmealOverViewVO。
+   */
   public SetmealOverViewVO getSetmealOverView() {
     int sold = value(setmealClient.countByStatus(StatusConstant.ENABLE));
     int discontinued = value(setmealClient.countByStatus(StatusConstant.DISABLE));
     return SetmealOverViewVO.builder().sold(sold).discontinued(discontinued).build();
   }
 
+  /**
+   * 作用: 执行value相关逻辑。
+   * 输入: Result<Long> result。
+   * 输出: int。
+   */
   private int value(Result<Long> result) {
     return result == null || result.getData() == null ? 0 : result.getData().intValue();
   }
 
+  /**
+   * 作用: 执行lastInt相关逻辑。
+   * 输入: String csv。
+   * 输出: int。
+   */
   private int lastInt(String csv) {
     if (csv == null || csv.isBlank()) {
       return 0;
@@ -120,6 +150,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     return Integer.parseInt(last);
   }
 
+  /**
+   * 作用: 执行lastDouble相关逻辑。
+   * 输入: String csv。
+   * 输出: double。
+   */
   private double lastDouble(String csv) {
     if (csv == null || csv.isBlank()) {
       return 0D;

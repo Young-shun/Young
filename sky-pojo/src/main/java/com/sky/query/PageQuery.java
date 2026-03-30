@@ -13,6 +13,11 @@ public class PageQuery {
   private String sortBy;
   private Boolean isAsc;
 
+  /**
+   * 作用: 执行toMpPage相关逻辑。
+   * 输入: OrderItem... orders。
+   * 输出: <T> Page<T>。
+   */
   public <T> Page<T> toMpPage(OrderItem... orders) {
     // 1.分页条件
     Page<T> p = Page.of(page, pageSize);
@@ -29,14 +34,29 @@ public class PageQuery {
     return p;
   }
 
+  /**
+   * 作用: 执行toMpPage相关逻辑。
+   * 输入: String defaultSortBy, boolean isAsc。
+   * 输出: <T> Page<T>。
+   */
   public <T> Page<T> toMpPage(String defaultSortBy, boolean isAsc) {
     return this.toMpPage(new OrderItem(defaultSortBy, isAsc));
   }
 
+  /**
+   * 作用: 执行toMpPageDefaultSortByCreateTimeDesc相关逻辑。
+   * 输入: 无。
+   * 输出: <T> Page<T>。
+   */
   public <T> Page<T> toMpPageDefaultSortByCreateTimeDesc() {
     return toMpPage("create_time", false);
   }
 
+  /**
+   * 作用: 执行toMpPageDefaultSortByUpdateTimeDesc相关逻辑。
+   * 输入: 无。
+   * 输出: <T> Page<T>。
+   */
   public <T> Page<T> toMpPageDefaultSortByUpdateTimeDesc() {
     return toMpPage("update_time", false);
   }

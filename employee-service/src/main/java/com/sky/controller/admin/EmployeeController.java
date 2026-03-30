@@ -42,6 +42,11 @@ public class EmployeeController {
     private JwtProperties jwtProperties;
 
     @PostMapping("/login")
+    /**
+     * 作用: 执行login相关逻辑。
+     * 输入: @RequestBody EmployeeLoginDTO employeeLoginDTO。
+     * 输出: Result<EmployeeLoginVO>。
+     */
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("employee login: {}", employeeLoginDTO);
 
@@ -65,12 +70,22 @@ public class EmployeeController {
     }
 
     @PostMapping("/logout")
+    /**
+     * 作用: 执行logout相关逻辑。
+     * 输入: 无。
+     * 输出: Result<String>。
+     */
     public Result<String> logout() {
         return Result.success();
     }
 
     @PostMapping
     @ApiOperation("新增员工")
+    /**
+     * 作用: 执行save相关逻辑。
+     * 输入: @RequestBody EmployeeDTO employeeDTO。
+     * 输出: Result<String>。
+     */
     public Result<String> save(@RequestBody EmployeeDTO employeeDTO) {
         log.info("employee info: {}", employeeDTO);
         employeeService.save(employeeDTO);
@@ -78,6 +93,11 @@ public class EmployeeController {
     }
 
     @GetMapping("/page")
+    /**
+     * 作用: 执行page相关逻辑。
+     * 输入: EmployeePageQueryDTO employeePageQueryDTO。
+     * 输出: Result<PageResult>。
+     */
     public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
         log.info("employee page query: {}", employeePageQueryDTO);
         PageDTO<Employee> p = employeeService.page(employeePageQueryDTO);
@@ -86,6 +106,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/status/{status}")
+    /**
+     * 作用: 执行startClose相关逻辑。
+     * 输入: @PathVariable Integer status, Long id。
+     * 输出: Result<String>。
+     */
     public Result<String> startClose(@PathVariable Integer status, Long id) {
         log.info("update employee status: {}, id: {}", status, id);
         employeeService.startClose(status, id);
@@ -93,6 +118,11 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
+    /**
+     * 作用: 执行getById相关逻辑。
+     * 输入: @PathVariable Long id。
+     * 输出: Result<Employee>。
+     */
     public Result<Employee> getById(@PathVariable Long id) {
         log.info("get employee by id: {}", id);
         Employee employee = employeeService.getById(id);
@@ -100,6 +130,11 @@ public class EmployeeController {
     }
 
     @PutMapping()
+    /**
+     * 作用: 执行update相关逻辑。
+     * 输入: @RequestBody EmployeeDTO employeeDTO。
+     * 输出: Result<String>。
+     */
     public Result<String> update(@RequestBody EmployeeDTO employeeDTO) {
         log.info("update employee info: {}", employeeDTO);
         employeeService.update(employeeDTO);

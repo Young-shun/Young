@@ -24,6 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 public class RedisConfiguration {
   @Bean
   @ConditionalOnMissingBean(RedisTemplate.class)
+  /**
+   * 作用: 执行redisTemplate相关逻辑。
+   * 输入: RedisConnectionFactory redisConnectionFactory。
+   * 输出: RedisTemplate<Object, Object>。
+   */
   public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
     log.info("创建RedisTemplate对象...");
     RedisTemplate<Object, Object> template = new RedisTemplate<>();

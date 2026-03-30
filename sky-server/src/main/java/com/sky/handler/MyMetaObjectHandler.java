@@ -10,6 +10,11 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
   @Override
+  /**
+   * 作用: 执行insertFill相关逻辑。
+   * 输入: MetaObject metaObject。
+   * 输出: 无。
+   */
   public void insertFill(MetaObject metaObject) {
     // 插入时自动填充时间
     this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
@@ -19,6 +24,11 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
   }
 
   @Override
+  /**
+   * 作用: 执行updateFill相关逻辑。
+   * 输入: MetaObject metaObject。
+   * 输出: 无。
+   */
   public void updateFill(MetaObject metaObject) {
     // 更新时自动填充
     this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());

@@ -31,6 +31,11 @@ public class OrderController {
   private OrderService orderService;
 
   @PostMapping("/submit")
+  /**
+   * 作用: 执行submit相关逻辑。
+   * 输入: @RequestBody OrdersSubmitDTO ordersSubmitDTO。
+   * 输出: Result<OrderSubmitVO>。
+   */
   public Result<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO) {
     log.info("Submitting order: {}", ordersSubmitDTO);
     OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
@@ -47,6 +52,11 @@ public class OrderController {
   }
 
   @GetMapping("/historyOrders")
+  /**
+   * 作用: 执行getHistoryOrders相关逻辑。
+   * 输入: OrdersPageQueryDTO ordersPageQueryDTO。
+   * 输出: Result<PageResult>。
+   */
   public Result<PageResult> getHistoryOrders(OrdersPageQueryDTO ordersPageQueryDTO) {
     log.info("获取用户历史订单：{}", ordersPageQueryDTO);
     PageResult pageResult = orderService.getHistoryOrders(ordersPageQueryDTO);
@@ -54,6 +64,11 @@ public class OrderController {
   }
 
   @GetMapping("/orderDetail/{id}")
+  /**
+   * 作用: 执行getOrderDetail相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Result<OrderVO>。
+   */
   public Result<OrderVO> getOrderDetail(@PathVariable Long id) {
     log.info("获取用户订单详情：{}", id);
     OrderVO orderVO = orderService.getOrderDetail(id);
@@ -69,12 +84,22 @@ public class OrderController {
 
   @PostMapping("/repetition/{id}")
   @ApiOperation("再来一单")
+  /**
+   * 作用: 执行repetition相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Result。
+   */
   public Result repetition(@PathVariable Long id) {
     orderService.repetition(id);
     return Result.success();
   }
 
   @GetMapping("/reminder/{id}")
+  /**
+   * 作用: 执行reminder相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Result<String>。
+   */
   public Result<String> reminder(@PathVariable Long id) {
     orderService.reminder(id);
     return Result.success();

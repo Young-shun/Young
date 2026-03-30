@@ -13,6 +13,11 @@ import com.sky.interceptor.JwtTokenUserInterceptor;
 @ConditionalOnClass(DispatcherServlet.class)
 public class MvcConfig implements WebMvcConfigurer {
   @Override
+  /**
+   * 作用: 执行addInterceptors相关逻辑。
+   * 输入: InterceptorRegistry registry。
+   * 输出: 无。
+   */
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new JwtTokenUserInterceptor());
     registry.addInterceptor(new JwtTokenAdminInterceptor());

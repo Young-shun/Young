@@ -48,6 +48,11 @@ public class DishController {
 
   @PostMapping
   @CacheEvict(cacheNames = "Dishes_", key = "#dishDTO.categoryId")
+  /**
+   * 作用: 执行save相关逻辑。
+   * 输入: @RequestBody DishDTO dishDTO。
+   * 输出: Result<String>。
+   */
   public Result<String> save(@RequestBody DishDTO dishDTO) {
     log.info("新增菜品，参数：{}", dishDTO);
     dishService.saveWithFlavor(dishDTO);
@@ -55,6 +60,11 @@ public class DishController {
   }
 
   @GetMapping("/page")
+  /**
+   * 作用: 执行page相关逻辑。
+   * 输入: DishPageQueryDTO dishPageQueryDTO。
+   * 输出: Result<PageResult>。
+   */
   public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
     log.info("菜品分页查询，参数：{}", dishPageQueryDTO);
     Page<DishVO> p = dishService
@@ -65,6 +75,11 @@ public class DishController {
 
   @DeleteMapping
   @CacheEvict(cacheNames = "Dishes_", allEntries = true)
+  /**
+   * 作用: 执行delete相关逻辑。
+   * 输入: @RequestParam List<Long> ids。
+   * 输出: Result<String>。
+   */
   public Result<String> delete(@RequestParam List<Long> ids) {
     log.info("删除菜品，id：{}", ids);
     dishService.delete(ids);
@@ -72,6 +87,11 @@ public class DishController {
   }
 
   @GetMapping("/{id}")
+  /**
+   * 作用: 执行getById相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Result<DishVO>。
+   */
   public Result<DishVO> getById(@PathVariable Long id) {
     DishVO dish = dishService.getByIdWithFlavor(id);
     return Result.success(dish);
@@ -79,12 +99,22 @@ public class DishController {
 
   // Lightweight endpoint for Feign clients to fetch raw Dish entity
   @GetMapping("/entity/{id}")
+  /**
+   * 作用: 执行entityById相关逻辑。
+   * 输入: @PathVariable Long id。
+   * 输出: Dish。
+   */
   public Dish entityById(@PathVariable Long id) {
     return dishService.getByIdEntity(id);
   }
 
   @PutMapping
   @CacheEvict(cacheNames = "Dishes_", allEntries = true)
+  /**
+   * 作用: 执行update相关逻辑。
+   * 输入: @RequestBody DishDTO dishDTO。
+   * 输出: Result<String>。
+   */
   public Result<String> update(@RequestBody DishDTO dishDTO) {
     log.info("更新菜品，参数：{}", dishDTO);
     dishService.updateWithFlavor(dishDTO);
@@ -93,6 +123,11 @@ public class DishController {
 
   @PostMapping("/status/{status}")
   @CacheEvict(cacheNames = "Dishes_", allEntries = true)
+  /**
+   * 作用: 执行startOrStop相关逻辑。
+   * 输入: @PathVariable("status") Integer status, Long id。
+   * 输出: Result<String>。
+   */
   public Result<String> startOrStop(@PathVariable("status") Integer status, Long id) {
     dishService.startOrStop(status, id);
     return Result.success();
@@ -100,6 +135,11 @@ public class DishController {
 
   @GetMapping("/list")
   @ApiOperation("根据分类id查询菜品")
+  /**
+   * 作用: 执行list相关逻辑。
+   * 输入: Long categoryId。
+   * 输出: Result<List<Dish>>。
+   */
   public Result<List<Dish>> list(Long categoryId) {
     // 调用 category-service via Feign
     // 示例：获取分类下菜品列表时仍使用本地 dishService，但若需要调用分类信息可使用 categoryClient

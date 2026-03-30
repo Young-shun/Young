@@ -32,6 +32,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     @Transactional
+    /**
+     * 作用: 执行save相关逻辑。
+     * 输入: CategoryDTO categoryDTO。
+     * 输出: 无。
+     */
     public void save(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
@@ -43,6 +48,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     @Transactional
+    /**
+     * 作用: 执行deleteById相关逻辑。
+     * 输入: Long id。
+     * 输出: 无。
+     */
     public void deleteById(Long id) {
         categoryMapper.deleteById(id);
         dishClient.deleteCategory(id);
@@ -51,6 +61,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     @Transactional
+    /**
+     * 作用: 执行update相关逻辑。
+     * 输入: CategoryDTO categoryDTO。
+     * 输出: 无。
+     */
     public void update(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
@@ -64,6 +79,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     @Transactional
+    /**
+     * 作用: 执行startOrStop相关逻辑。
+     * 输入: Integer status, Long id。
+     * 输出: 无。
+     */
     public void startOrStop(Integer status, Long id) {
         Category category = Category.builder()
                 .id(id)
@@ -78,6 +98,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    /**
+     * 作用: 执行list相关逻辑。
+     * 输入: Integer type。
+     * 输出: List<Category>。
+     */
     public List<Category> list(Integer type) {
         return categoryMapper.selectList(new LambdaQueryWrapper<Category>()
                 .eq(Category::getStatus, StatusConstant.ENABLE)
@@ -87,6 +112,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    /**
+     * 作用: 执行queryCategoryByPage相关逻辑。
+     * 输入: CategoryPageQueryDTO categoryPageQueryDTO。
+     * 输出: Page<Category>。
+     */
     public Page<Category> queryCategoryByPage(CategoryPageQueryDTO categoryPageQueryDTO) {
         Page<Category> page = new Page<>(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
         categoryMapper.selectPage(page, new LambdaQueryWrapper<Category>()

@@ -29,6 +29,11 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
   private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
   @Override
+  /**
+   * 作用: 执行filter相关逻辑。
+   * 输入: ServerWebExchange exchange, GatewayFilterChain chain。
+   * 输出: Mono<Void>。
+   */
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
     // 1.获取Request
     ServerHttpRequest request = exchange.getRequest();
@@ -101,6 +106,11 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     return chain.filter(context);
   }
 
+  /**
+   * 作用: 执行isExclude相关逻辑。
+   * 输入: String antPath。
+   * 输出: boolean。
+   */
   private boolean isExclude(String antPath) {
     for (String pathPattern : jwtProperties.getExcludePaths()) {
       if (antPathMatcher.match(pathPattern, antPath)) {
@@ -111,6 +121,11 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
   }
 
   @Override
+  /**
+   * 作用: 执行getOrder相关逻辑。
+   * 输入: 无。
+   * 输出: int。
+   */
   public int getOrder() {
     return 0;
   }

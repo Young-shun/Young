@@ -13,6 +13,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching
 @EnableScheduling
 public class SkyApplication {
+    /**
+     * 作用: 执行main相关逻辑。
+     * 输入: String[] args。
+     * 输出: 无。
+     */
     public static void main(String[] args) {
         SpringApplication.run(SkyApplication.class, args);
         log.info("server started");

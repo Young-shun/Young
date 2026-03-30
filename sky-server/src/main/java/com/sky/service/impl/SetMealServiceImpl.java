@@ -185,6 +185,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
   }
 
   @Override
+  /**
+   * 作用: 执行querySetmealByPage相关逻辑。
+   * 输入: SetmealPageQueryDTO setmealPageQueryDTO。
+   * 输出: Page<SetmealVO>。
+   */
   public Page<SetmealVO> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO) {
     // 1.构建条件
     Page<SetmealVO> page = new Page<>(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());

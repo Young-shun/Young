@@ -26,10 +26,25 @@ public interface EmployeeService extends IService<Employee> {
 
     PageDTO<Employee> page(EmployeePageQueryDTO employeePageQueryDTO);
 
+    /**
+     * 作用: 执行startClose相关逻辑。
+     * 输入: Integer status, Long id。
+     * 输出: 无。
+     */
     void startClose(Integer status, Long id);
 
+    /**
+     * 作用: 执行getById相关逻辑。
+     * 输入: Long id。
+     * 输出: Employee。
+     */
     Employee getById(Long id);
 
+    /**
+     * 作用: 执行update相关逻辑。
+     * 输入: EmployeeDTO employeeDTO。
+     * 输出: 无。
+     */
     void update(EmployeeDTO employeeDTO);
 
 }

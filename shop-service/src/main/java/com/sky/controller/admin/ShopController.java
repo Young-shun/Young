@@ -26,6 +26,11 @@ public class ShopController {
   private RedisTemplate redisTemplate;
 
   @PutMapping("/{status}")
+  /**
+   * 作用: 执行setStatus相关逻辑。
+   * 输入: @PathVariable Integer status。
+   * 输出: Result<String>。
+   */
   public Result<String> setStatus(@PathVariable Integer status) {
     log.info("set shop status: {}", status);
     redisTemplate.opsForValue().set("shop_status", status);
@@ -33,6 +38,11 @@ public class ShopController {
   }
 
   @GetMapping("/status")
+  /**
+   * 作用: 执行getStatus相关逻辑。
+   * 输入: 无。
+   * 输出: Result<Integer>。
+   */
   public Result<Integer> getStatus() {
     log.info("get shop status");
     Integer status = (Integer) redisTemplate.opsForValue().get(Key);

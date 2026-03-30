@@ -1,6 +1,7 @@
 package com.sky.api.client;
 
 import com.sky.entity.User;
+import com.sky.api.client.fallback.UserClientFallbackFactory;
 import com.sky.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 
-@FeignClient(name = "sky-take-out-user")
+@FeignClient(name = "sky-take-out-user", fallbackFactory = UserClientFallbackFactory.class)
 public interface UserClient {
 
   @GetMapping("/user/{id}")

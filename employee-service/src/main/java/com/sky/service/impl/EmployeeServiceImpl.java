@@ -36,6 +36,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 	private EmployeeMapper employeeMapper;
 
 	@Override
+	/**
+	 * 作用: 执行login相关逻辑。
+	 * 输入: EmployeeLoginDTO employeeLoginDTO。
+	 * 输出: Employee。
+	 */
 	public Employee login(EmployeeLoginDTO employeeLoginDTO) {
 		String username = employeeLoginDTO.getUsername();
 		String password = employeeLoginDTO.getPassword();
@@ -60,6 +65,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 	}
 
 	@Override
+	/**
+	 * 作用: 执行save相关逻辑。
+	 * 输入: EmployeeDTO employeeDTO。
+	 * 输出: 无。
+	 */
 	public void save(EmployeeDTO employeeDTO) {
 		Employee employee = new Employee();
 		BeanUtils.copyProperties(employeeDTO, employee);
@@ -69,6 +79,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 	}
 
 	@Override
+	/**
+	 * 作用: 执行page相关逻辑。
+	 * 输入: EmployeePageQueryDTO employeePageQueryDTO。
+	 * 输出: PageDTO<Employee>。
+	 */
 	public PageDTO<Employee> page(EmployeePageQueryDTO employeePageQueryDTO) {
 		Page<Employee> page = employeePageQueryDTO.toMpPageDefaultSortByCreateTimeDesc();
 		page(page, new LambdaQueryWrapper<Employee>()
@@ -77,12 +92,22 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 	}
 
 	@Override
+	/**
+	 * 作用: 执行startClose相关逻辑。
+	 * 输入: Integer status, Long id。
+	 * 输出: 无。
+	 */
 	public void startClose(Integer status, Long id) {
 		Employee employee = Employee.builder().id(id).status(status).build();
 		employeeMapper.updateById(employee);
 	}
 
 	@Override
+	/**
+	 * 作用: 执行getById相关逻辑。
+	 * 输入: java.io.Serializable id。
+	 * 输出: Employee。
+	 */
 	public Employee getById(java.io.Serializable id) {
 		Employee employee = employeeMapper.selectById(id);
 		if (employee != null) {
@@ -92,6 +117,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 	}
 
 	@Override
+	/**
+	 * 作用: 执行update相关逻辑。
+	 * 输入: EmployeeDTO employeeDTO。
+	 * 输出: 无。
+	 */
 	public void update(EmployeeDTO employeeDTO) {
 		Employee employee = new Employee();
 		BeanUtils.copyProperties(employeeDTO, employee);

@@ -21,6 +21,11 @@ public class CategoryController {
 
     @GetMapping("/list")
     @ApiOperation("查询分类")
+    /**
+     * 作用: 执行list相关逻辑。
+     * 输入: Integer type。
+     * 输出: Result<List<Category>>。
+     */
     public Result<List<Category>> list(Integer type) {
         List<Category> list = categoryService.list(type);
         return Result.success(list);

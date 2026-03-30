@@ -6,16 +6,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sky.entity.Dish;
+import com.sky.api.client.fallback.DishClientFallbackFactory;
 import com.sky.entity.Category;
 import com.sky.result.Result;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "sky-take-out-dish")
+@FeignClient(name = "sky-take-out-dish", fallbackFactory = DishClientFallbackFactory.class)
 public interface DishClient {
   // Feign should call a lightweight endpoint that returns Dish entity
   @GetMapping("/inner/dish/{id}")
+  /**
+   * 作用: 执行getById相关逻辑。
+   * 输入: @PathVariable("id") Long id。
+   * 输出: Dish。
+   */
   Dish getById(@PathVariable("id") Long id);
 
   @GetMapping("/inner/dish/count")

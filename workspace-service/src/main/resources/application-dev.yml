@@ -17,6 +17,10 @@ sky:
     access-key-id: LTAI5t9nJ2a4XWxL37zeLwqL
     access-key-secret: oMe02U0cGXkeLAr70nVsYyjl1KQzvU
     endpoint: oss-cn-beijing.aliyuncs.com
+  redis:
+    host: localhost
+    port: 6379
+    database: 12
   wechat:
     # 以后用到的时候appid secret mechid No Path等换成自己的即可
     appid: wx74d1255221847526

@@ -44,6 +44,11 @@ public class ApiCommonWebMvcConfig extends WebMvcConfigurationSupport {
   }
 
   @Override
+  /**
+   * 作用: 执行extendMessageConverters相关逻辑。
+   * 输入: List<HttpMessageConverter<?>> converters。
+   * 输出: 无。
+   */
   protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
     log.info("开始注册通用消息转换器（API层）...");
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();

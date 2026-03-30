@@ -17,6 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 public class WebSocketConfiguration {
 
     @Bean
+    /**
+     * 作用: 执行serverEndpointExporter相关逻辑。
+     * 输入: 无。
+     * 输出: ServerEndpointExporter。
+     */
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }

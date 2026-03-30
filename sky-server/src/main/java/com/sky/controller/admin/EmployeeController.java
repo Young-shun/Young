@@ -142,6 +142,11 @@ public class EmployeeController {
     }
 
     @PutMapping()
+    /**
+     * 作用: 执行update相关逻辑。
+     * 输入: @RequestBody EmployeeDTO employeeDTO。
+     * 输出: Result<String>。
+     */
     public Result<String> update(@RequestBody EmployeeDTO employeeDTO) {
         log.info("更新员工信息：{}", employeeDTO);
         employeeService.update(employeeDTO);

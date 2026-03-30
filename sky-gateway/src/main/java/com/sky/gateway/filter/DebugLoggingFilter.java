@@ -13,6 +13,11 @@ import reactor.core.publisher.Mono;
 public class DebugLoggingFilter implements GlobalFilter, Ordered {
 
   @Override
+  /**
+   * 作用: 执行filter相关逻辑。
+   * 输入: ServerWebExchange exchange, GatewayFilterChain chain。
+   * 输出: Mono<Void>。
+   */
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
     ServerHttpRequest request = exchange.getRequest();
     System.out.println("[GatewayDebug] " + request.getMethod() + " " + request.getURI());
@@ -20,6 +25,11 @@ public class DebugLoggingFilter implements GlobalFilter, Ordered {
   }
 
   @Override
+  /**
+   * 作用: 执行getOrder相关逻辑。
+   * 输入: 无。
+   * 输出: int。
+   */
   public int getOrder() {
     return -1000;
   }

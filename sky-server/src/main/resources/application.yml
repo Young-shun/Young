@@ -16,6 +16,11 @@ spring:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
     database: ${sky.redis.database}
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:9090
+      http-method-specify: true # 开启请求方式前缀
 mybatis-plus:
   #mapper-plus配置文件
   mapper-locations: classpath:mapper/*.xml

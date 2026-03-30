@@ -169,6 +169,11 @@ public class HttpClientUtil {
 
         return resultString;
     }
+    /**
+     * 作用: 执行builderRequestConfig相关逻辑。
+     * 输入: 无。
+     * 输出: RequestConfig。
+     */
     private static RequestConfig builderRequestConfig() {
         return RequestConfig.custom()
                 .setConnectTimeout(TIMEOUT_MSEC)

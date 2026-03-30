@@ -20,6 +20,11 @@ public class InnerSetmealCategoryController {
   private CategorySyncMapper categorySyncMapper;
 
   @PostMapping("/sync")
+  /**
+   * 作用: 执行sync相关逻辑。
+   * 输入: @RequestBody Category category。
+   * 输出: Result<String>。
+   */
   public Result<String> sync(@RequestBody Category category) {
     if (category.getId() == null) {
       return Result.error("category id is required");
@@ -34,6 +39,11 @@ public class InnerSetmealCategoryController {
   }
 
   @DeleteMapping("/{id}")
+  /**
+   * 作用: 执行delete相关逻辑。
+   * 输入: @PathVariable("id") Long id。
+   * 输出: Result<String>。
+   */
   public Result<String> delete(@PathVariable("id") Long id) {
     categorySyncMapper.deleteById(id);
     return Result.success();

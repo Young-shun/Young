@@ -11,7 +11,6 @@ import com.sky.vo.OrderVO;
 
 import io.swagger.annotations.ApiOperation;
 
-import com.sky.api.client.ReportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +27,22 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/conditionSearch")
+    /**
+     * 作用: 执行conditionSearch相关逻辑。
+     * 输入: OrdersPageQueryDTO ordersPageQueryDTO。
+     * 输出: Result<PageResult>。
+     */
     public Result<PageResult> conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
         PageResult p = orderService.queryOrderByPage(ordersPageQueryDTO);
         return Result.success(p);
     }
 
     @GetMapping("/statistics")
+    /**
+     * 作用: 执行statistics相关逻辑。
+     * 输入: 无。
+     * 输出: Result<OrderStatisticsVO>。
+     */
     public Result<OrderStatisticsVO> statistics() {
         OrderStatisticsVO statistics = orderService.statistics();
         return Result.success(statistics);

@@ -27,6 +27,11 @@ public class JacksonGlobalConfig {
   private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
   @Bean
+  /**
+   * 作用: 执行jackson2ObjectMapperBuilderCustomizer相关逻辑。
+   * 输入: 无。
+   * 输出: Jackson2ObjectMapperBuilderCustomizer。
+   */
   public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
     return builder -> builder
         .deserializerByType(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {

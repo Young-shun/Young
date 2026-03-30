@@ -14,6 +14,11 @@ import com.sky.api.config.ApiCommonWebMvcConfig;
 @EnableScheduling
 @Import(ApiCommonWebMvcConfig.class)
 public class UserServerApplication {
+    /**
+     * 作用: 执行main相关逻辑。
+     * 输入: String[] args。
+     * 输出: 无。
+     */
     public static void main(String[] args) {
         SpringApplication.run(UserServerApplication.class, args);
         log.info("User server started");

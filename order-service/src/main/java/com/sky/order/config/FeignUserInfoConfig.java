@@ -11,6 +11,11 @@ import feign.RequestInterceptor;
 public class FeignUserInfoConfig {
 
   @Bean
+  /**
+   * 作用: 执行userInfoForwardInterceptor相关逻辑。
+   * 输入: 无。
+   * 输出: RequestInterceptor。
+   */
   public RequestInterceptor userInfoForwardInterceptor() {
     return template -> {
       Long userId = BaseContext.getCurrentId();

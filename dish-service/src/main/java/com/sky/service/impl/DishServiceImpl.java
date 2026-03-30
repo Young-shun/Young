@@ -34,6 +34,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
   private DishFlavorMapper dishFlavorMapper;
 
   @Transactional
+  /**
+   * 作用: 执行saveWithFlavor相关逻辑。
+   * 输入: DishDTO dishDTO。
+   * 输出: 无。
+   */
   public void saveWithFlavor(DishDTO dishDTO) {
     Dish dish = new Dish();
     BeanUtils.copyProperties(dishDTO, dish);
@@ -49,6 +54,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
   }
 
   @Override
+  /**
+   * 作用: 执行delete相关逻辑。
+   * 输入: List<Long> ids。
+   * 输出: 无。
+   */
   public void delete(List<Long> ids) {
     for (Long id : ids) {
       Dish dish = dishMapper.selectById(id);
@@ -61,6 +71,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
   }
 
   @Override
+  /**
+   * 作用: 执行getByIdWithFlavor相关逻辑。
+   * 输入: Long id。
+   * 输出: DishVO。
+   */
   public DishVO getByIdWithFlavor(Long id) {
     Dish dish = dishMapper.selectById(id);
     if (dish == null) {
@@ -75,6 +90,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
   }
 
   @Override
+  /**
+   * 作用: 执行updateWithFlavor相关逻辑。
+   * 输入: DishDTO dishDTO。
+   * 输出: 无。
+   */
   public void updateWithFlavor(DishDTO dishDTO) {
     Dish dish = new Dish();
     BeanUtils.copyProperties(dishDTO, dish);
@@ -89,6 +109,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
   }
 
+  /**
+   * 作用: 执行startOrStop相关逻辑。
+   * 输入: Integer status, Long id。
+   * 输出: 无。
+   */
   public void startOrStop(Integer status, Long id) {
     Dish dish = Dish.builder()
         .id(id)
@@ -97,6 +122,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     dishMapper.updateById(dish);
   }
 
+  /**
+   * 作用: 执行list相关逻辑。
+   * 输入: Long categoryId。
+   * 输出: List<Dish>。
+   */
   public List<Dish> list(Long categoryId) {
     Dish dish = Dish.builder()
         .categoryId(categoryId)
@@ -105,6 +135,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     return dishMapper.list(dish);
   }
 
+  /**
+   * 作用: 执行listWithFlavor相关逻辑。
+   * 输入: Dish dish。
+   * 输出: List<DishVO>。
+   */
   public List<DishVO> listWithFlavor(Dish dish) {
     List<Dish> dishList = dishMapper.list(dish);
     List<DishVO> dishVOList = new ArrayList<>();
@@ -120,11 +155,21 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
   }
 
   @Override
+  /**
+   * 作用: 执行getByIdEntity相关逻辑。
+   * 输入: Long id。
+   * 输出: Dish。
+   */
   public Dish getByIdEntity(Long id) {
     return dishMapper.selectById(id);
   }
 
   @Override
+  /**
+   * 作用: 执行queryDishByPage相关逻辑。
+   * 输入: DishPageQueryDTO dishPageQueryDTO。
+   * 输出: Page<DishVO>。
+   */
   public Page<DishVO> queryDishByPage(DishPageQueryDTO dishPageQueryDTO) {
     Page<DishVO> page = new Page<>(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
     dishMapper.page(page, dishPageQueryDTO);

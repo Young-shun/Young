@@ -61,6 +61,11 @@ public class ReportController {
 
   @GetMapping("/export")
   @ApiOperation("export business data report")
+  /**
+   * 作用: 执行export相关逻辑。
+   * 输入: HttpServletResponse response。
+   * 输出: 无。
+   */
   public void export(HttpServletResponse response) {
     reportService.exportBusinessData(response);
   }

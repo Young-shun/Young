@@ -20,11 +20,21 @@ public class InnerSetmealController {
   private SetMealService setMealService;
 
   @GetMapping("/{id}")
+  /**
+   * 作用: 执行getById相关逻辑。
+   * 输入: @PathVariable("id") Long id。
+   * 输出: Setmeal。
+   */
   public Setmeal getById(@PathVariable("id") Long id) {
     return setMealService.getById(id);
   }
 
   @GetMapping("/count")
+  /**
+   * 作用: 执行countByStatus相关逻辑。
+   * 输入: @RequestParam("status") Integer status。
+   * 输出: Result<Long>。
+   */
   public Result<Long> countByStatus(@RequestParam("status") Integer status) {
     long count = setMealService.count(new LambdaQueryWrapper<Setmeal>().eq(Setmeal::getStatus, status));
     return Result.success(count);

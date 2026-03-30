@@ -46,6 +46,11 @@ public interface ReportService {
    */
   SalesTop10ReportVO top10(LocalDate begin, LocalDate end);
 
+  /**
+   * 作用: 执行exportBusinessData相关逻辑。
+   * 输入: HttpServletResponse response。
+   * 输出: 无。
+   */
   void exportBusinessData(HttpServletResponse response);
 
 }

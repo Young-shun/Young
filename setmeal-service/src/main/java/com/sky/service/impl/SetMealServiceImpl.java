@@ -45,6 +45,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
 
   @Override
   @Transactional
+  /**
+   * 作用: 执行createSetMeal相关逻辑。
+   * 输入: SetmealDTO setMealDto。
+   * 输出: 无。
+   */
   public void createSetMeal(SetmealDTO setMealDto) {
     Setmeal setmeal = new Setmeal();
     BeanUtils.copyProperties(setMealDto, setmeal);
@@ -61,6 +66,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
   }
 
   @Override
+  /**
+   * 作用: 执行delete相关逻辑。
+   * 输入: List<Long> ids。
+   * 输出: 无。
+   */
   public void delete(List<Long> ids) {
     for (Long id : ids) {
       Setmeal setmeal = setmealMapper.selectById(id);
@@ -73,6 +83,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
   }
 
   @Override
+  /**
+   * 作用: 执行getByIdWithDish相关逻辑。
+   * 输入: Long id。
+   * 输出: SetmealVO。
+   */
   public SetmealVO getByIdWithDish(Long id) {
     Setmeal setmeal = setmealMapper.selectById(id);
     if (setmeal == null) {
@@ -87,6 +102,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
   }
 
   @Override
+  /**
+   * 作用: 执行updateWithDish相关逻辑。
+   * 输入: SetmealDTO setmealDTO。
+   * 输出: 无。
+   */
   public void updateWithDish(SetmealDTO setmealDTO) {
     Setmeal setmeal = new Setmeal();
     BeanUtils.copyProperties(setmealDTO, setmeal);
@@ -101,6 +121,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
     }
   }
 
+  /**
+   * 作用: 执行startOrStop相关逻辑。
+   * 输入: Integer status, Long id。
+   * 输出: 无。
+   */
   public void startOrStop(Integer status, Long id) {
     Setmeal setmeal = Setmeal.builder()
         .id(id)
@@ -109,6 +134,11 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
     setmealMapper.updateById(setmeal);
   }
 
+  /**
+   * 作用: 执行list相关逻辑。
+   * 输入: Setmeal setmeal。
+   * 输出: List<Setmeal>。
+   */
   public List<Setmeal> list(Setmeal setmeal) {
     QueryWrapper<Setmeal> queryWrapper = new QueryWrapper<>();
     queryWrapper.lambda()
@@ -120,15 +150,30 @@ public class SetMealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
   }
 
   @Override
+  /**
+   * 作用: 执行getByIdEntity相关逻辑。
+   * 输入: Long id。
+   * 输出: Setmeal。
+   */
   public Setmeal getByIdEntity(Long id) {
     return setmealMapper.selectById(id);
   }
 
+  /**
+   * 作用: 执行getDishItemById相关逻辑。
+   * 输入: Long id。
+   * 输出: List<DishItemVO>。
+   */
   public List<DishItemVO> getDishItemById(Long id) {
     return setmealMapper.getDishItemBySetmealId(id);
   }
 
   @Override
+  /**
+   * 作用: 执行querySetmealByPage相关逻辑。
+   * 输入: SetmealPageQueryDTO setmealPageQueryDTO。
+   * 输出: Page<SetmealVO>。
+   */
   public Page<SetmealVO> querySetmealByPage(SetmealPageQueryDTO setmealPageQueryDTO) {
     Page<SetmealVO> page = new Page<>(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
     setmealMapper.pageQuery(page, setmealPageQueryDTO);

@@ -20,11 +20,21 @@ public class InnerDishController {
   private DishService dishService;
 
   @GetMapping("/{id}")
+  /**
+   * 作用: 执行getById相关逻辑。
+   * 输入: @PathVariable("id") Long id。
+   * 输出: Dish。
+   */
   public Dish getById(@PathVariable("id") Long id) {
     return dishService.getByIdEntity(id);
   }
 
   @GetMapping("/count")
+  /**
+   * 作用: 执行countByStatus相关逻辑。
+   * 输入: @RequestParam("status") Integer status。
+   * 输出: Result<Long>。
+   */
   public Result<Long> countByStatus(@RequestParam("status") Integer status) {
     long count = dishService.count(new LambdaQueryWrapper<Dish>().eq(Dish::getStatus, status));
     return Result.success(count);
