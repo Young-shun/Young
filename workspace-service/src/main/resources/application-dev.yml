@@ -1,4 +1,4 @@
-spring:
+﻿spring:
   cloud:
     loadbalancer:
       ribbon:
@@ -22,7 +22,7 @@ sky:
     port: 6379
     database: 12
   wechat:
-    # 以后用到的时候appid secret mechid No Path等换成自己的即可
+    # 浠ュ悗鐢ㄥ埌鐨勬椂鍊檃ppid secret mechid No Path绛夋崲鎴愯嚜宸辩殑鍗冲彲
     appid: wx74d1255221847526
     secret: 0fc345a8c234115e608e836185e65adb
     mchid : 1561414331
@@ -33,6 +33,7 @@ sky:
     notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
     refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php
   shop:
-    address: 北京市海淀区上地十街10号
+    address: 鍖椾含甯傛捣娣€鍖轰笂鍦板崄琛?0鍙?
   baidu:
     ak: 9eptLzUStYTTWzqsPwGF9XiCfuZDLUZp
+

@@ -71,3 +71,4 @@ feign:
   sentinel:
     enabled: true # 开启feign对sentinel的支持
 
+

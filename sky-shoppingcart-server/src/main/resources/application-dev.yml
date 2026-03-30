@@ -1,4 +1,4 @@
-sky:
+﻿sky:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
@@ -14,9 +14,9 @@ sky:
   redis:
     host: localhost
     port: 6379
-    database: 10
+    database: 9
   wechat:
-    # 以后用到的时候appid secret mechid No Path等换成自己的即可
+    # 浠ュ悗鐢ㄥ埌鐨勬椂鍊檃ppid secret mechid No Path绛夋崲鎴愯嚜宸辩殑鍗冲彲
     appid: wx74d1255221847526
     secret: 0fc345a8c234115e608e836185e65adb
     mchid : 1561414331

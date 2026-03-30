@@ -71,3 +71,4 @@ feign:
   sentinel:
     enabled: true # 寮€鍚痜eign瀵箂entinel鐨勬敮鎸?
 
+

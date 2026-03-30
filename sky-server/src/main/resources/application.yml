@@ -1,4 +1,4 @@
-server:
+﻿server:
   port: 8080
 
 spring:
@@ -20,17 +20,17 @@ spring:
     sentinel:
       transport:
         dashboard: localhost:9090
-      http-method-specify: true # 开启请求方式前缀
+      http-method-specify: true # 寮€鍚姹傛柟寮忓墠缂€
 mybatis-plus:
-  #mapper-plus配置文件
+  #mapper-plus閰嶇疆鏂囦欢
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
   configuration:
-    #开启驼峰命名
+    #寮€鍚┘宄板懡鍚?
     map-underscore-to-camel-case: true
   global-config:
     db-config:
-      id-type: auto # 全局id类型为自增长
+      id-type: auto # 鍏ㄥ眬id绫诲瀷涓鸿嚜澧為暱
 
 logging:
   level:
@@ -42,17 +42,17 @@ logging:
 
 sky:
   jwt:
-    # 设置jwt签名加密时使用的秘钥
+    # 璁剧疆jwt绛惧悕鍔犲瘑鏃朵娇鐢ㄧ殑绉橀挜
     admin-secret-key: itcast
-    # 设置jwt过期时间
+    # 璁剧疆jwt杩囨湡鏃堕棿
     admin-ttl: 7200000
-    # 设置前端传递过来的令牌名称
+    # 璁剧疆鍓嶇浼犻€掕繃鏉ョ殑浠ょ墝鍚嶇О
     admin-token-name: token
-    # 设置jwt签名加密时使用的秘钥
+    # 璁剧疆jwt绛惧悕鍔犲瘑鏃朵娇鐢ㄧ殑绉橀挜
     user-secret-key: itcast
-    # 设置jwt过期时间
+    # 璁剧疆jwt杩囨湡鏃堕棿
     user-ttl: 7200000
-    # 设置前端传递过来的令牌名称
+    # 璁剧疆鍓嶇浼犻€掕繃鏉ョ殑浠ょ墝鍚嶇О
     user-token-name: authentication
   alioss:
     endpoint: ${sky.alioss.endpoint}
@@ -70,6 +70,6 @@ sky:
     notifyUrl: ${sky.wechat.notifyUrl}
     refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
   shop:
-    address: 北京市海淀区上地十街10号
+    address: 鍖椾含甯傛捣娣€鍖轰笂鍦板崄琛?0鍙?
   baidu:
     ak: 9eptLzUStYTTWzqsPwGF9XiCfuZDLUZp
