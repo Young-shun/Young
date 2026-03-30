@@ -18,11 +18,6 @@ import com.sky.vo.UserReportVO;
 import com.sky.vo.SetmealOverViewVO;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,16 +48,16 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     Result<OrderReportVO> orderResult = reportClient.ordersStatistics(beginDate, endDate);
     Result<UserReportVO> userResult = reportClient.userStatistics(beginDate, endDate);
 
-    double turnover = lastDouble(turnoverResult == null || turnoverResult.getData() == null
+    double turnover = sumDouble(turnoverResult == null || turnoverResult.getData() == null
         ? null
         : turnoverResult.getData().getTurnoverList());
-    int validOrderCount = lastInt(orderResult == null || orderResult.getData() == null
+    int validOrderCount = sumInt(orderResult == null || orderResult.getData() == null
         ? null
         : orderResult.getData().getValidOrderCountList());
-    int totalOrderCount = lastInt(orderResult == null || orderResult.getData() == null
+    int totalOrderCount = sumInt(orderResult == null || orderResult.getData() == null
         ? null
         : orderResult.getData().getOrderCountList());
-    int newUsers = lastInt(userResult == null || userResult.getData() == null
+    int newUsers = sumInt(userResult == null || userResult.getData() == null
         ? null
         : userResult.getData().getNewUserList());
 
@@ -138,16 +133,19 @@ public class WorkspaceServiceImpl implements WorkspaceService {
    * 输入: String csv。
    * 输出: int。
    */
-  private int lastInt(String csv) {
+  private int sumInt(String csv) {
     if (csv == null || csv.isBlank()) {
       return 0;
     }
+    int sum = 0;
     String[] arr = csv.split(",");
-    String last = arr[arr.length - 1].trim();
-    if (last.isEmpty()) {
-      return 0;
+    for (String item : arr) {
+      String value = item.trim();
+      if (!value.isEmpty()) {
+        sum += Integer.parseInt(value);
+      }
     }
-    return Integer.parseInt(last);
+    return sum;
   }
 
   /**
@@ -155,15 +153,18 @@ public class WorkspaceServiceImpl implements WorkspaceService {
    * 输入: String csv。
    * 输出: double。
    */
-  private double lastDouble(String csv) {
+  private double sumDouble(String csv) {
     if (csv == null || csv.isBlank()) {
       return 0D;
     }
+    double sum = 0D;
     String[] arr = csv.split(",");
-    String last = arr[arr.length - 1].trim();
-    if (last.isEmpty()) {
-      return 0D;
+    for (String item : arr) {
+      String value = item.trim();
+      if (!value.isEmpty()) {
+        sum += Double.parseDouble(value);
+      }
     }
-    return Double.parseDouble(last);
+    return sum;
   }
 }
