@@ -80,15 +80,42 @@
 
 注意：仓库中示例配置含有云服务和支付相关字段，仅用于本地调试示意，部署前请替换为你自己的真实配置，并避免将敏感信息提交到版本库。
 
-## 5. 快速启动
+## 5. 快速启动（后端 + Nginx 前端 + 微信小程序）
 
-### 5.1 安装公共模块到本地仓库
+### 5.1 初始化 MySQL 数据
+
+使用 `source/Ordering platform.sql` 初始化数据库（默认库名 `sky_take_out`）。
+
+示例：
+
+```sql
+SOURCE source/Ordering platform.sql;
+```
+
+### 5.2 配置后端环境变量（建议）
+
+各服务 `application-dev.yml` 中的敏感字段已替换为环境变量占位符，建议在本机环境中设置后再启动：
+
+- `MYSQL_USERNAME`
+- `MYSQL_PASSWORD`
+- `ALIYUN_OSS_ACCESS_KEY_ID`
+- `ALIYUN_OSS_ACCESS_KEY_SECRET`
+- `WECHAT_APPID`
+- `WECHAT_SECRET`
+- `WECHAT_MCHID`
+- `WECHAT_MCH_SERIAL_NO`
+- `WECHAT_PRIVATE_KEY_FILE_PATH`
+- `WECHAT_API_V3_KEY`
+- `WECHAT_PAY_CERT_FILE_PATH`
+- `BAIDU_MAP_AK`
+
+### 5.3 安装公共模块到本地仓库
 
 在根目录执行：
 
 	mvn -pl sky-api,sky-common,sky-pojo -am install -DskipTests
 
-### 5.2 启动业务服务
+### 5.4 启动后端服务
 
 可在根目录按模块分别启动（建议先启动业务服务，最后启动网关）：
 
@@ -108,9 +135,34 @@
 
 	mvn -pl sky-gateway spring-boot:run
 
-### 5.3 访问入口
+### 5.5 启动 Nginx 前端
+
+前端静态资源在 `source/nginx/html/sky`，Nginx 配置在 `source/nginx/conf/nginx.conf`。
+
+Windows 下可在 `source/nginx` 目录执行：
+
+```powershell
+./nginx.exe
+```
+
+停止：
+
+```powershell
+./nginx.exe -s stop
+```
+
+### 5.6 启动微信小程序
+
+小程序源码压缩包位于 `source/mp-weixin.zip`：
+
+1. 解压后使用微信开发者工具导入项目。
+2. 将请求地址配置为你的网关地址（例如 `http://localhost:8080`）。
+3. 使用你自己的小程序 AppID 与后端登录配置联调。
+
+### 5.7 访问入口
 
 - 网关地址：http://localhost:8080
+- 管理端前端（Nginx）：按 `source/nginx/conf/nginx.conf` 中监听端口访问
 - 管理端登录接口：POST /admin/employee/login
 - 用户端登录接口：POST /user/user/login
 
@@ -151,5 +203,6 @@
 - 优先通过网关进行联调，减少直连服务带来的鉴权与路由差异。
 - 跨服务调用时使用 Nacos 服务名，不要误用模块目录名。
 - 新增公共能力时尽量放到 sky-common 或 sky-api，统一复用并降低重复实现。
+
 
 

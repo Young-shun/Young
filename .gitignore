@@ -4,3 +4,6 @@
 *.class
 *Test.java
 **/test/
+
+# Local secret backups (do not upload)
+.local-secrets/

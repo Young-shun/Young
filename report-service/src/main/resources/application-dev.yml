@@ -10,12 +10,12 @@ sky:
     host: localhost
     port: 3306
     database: sky_take_out_report
-    username: root
-    password: yangshun011110
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:replace_me}
   alioss:
     bucket-name: wudixiaoxuesheng-ai
-    access-key-id: LTAI5t9nJ2a4XWxL37zeLwqL
-    access-key-secret: oMe02U0cGXkeLAr70nVsYyjl1KQzvU
+    access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID:replace_me}
+    access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:replace_me}
     endpoint: oss-cn-beijing.aliyuncs.com
   redis:
     host: localhost
@@ -23,14 +23,15 @@ sky:
     database: 11
   wechat:
     # 后续请将 appid、secret、mchid、证书路径等替换为你自己的配置
-    appid: wx74d1255221847526
-    secret: 0fc345a8c234115e608e836185e65adb
-    mchid : 1561414331
-    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
-    privateKeyFilePath: D:\apiclient_key.pem
-    apiV3Key: CZBK51236435wxpay435434323FFDuv3
-    weChatPayCertFilePath: D:\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+    appid: ${WECHAT_APPID:replace_me}
+    secret: ${WECHAT_SECRET:replace_me}
+    mchid : ${WECHAT_MCHID:replace_me}
+    mchSerialNo: ${WECHAT_MCH_SERIAL_NO:replace_me}
+    privateKeyFilePath: ${WECHAT_PRIVATE_KEY_FILE_PATH:D:/apiclient_key.pem}
+    apiV3Key: ${WECHAT_API_V3_KEY:replace_me}
+    weChatPayCertFilePath: ${WECHAT_PAY_CERT_FILE_PATH:D:/wechatpay_cert.pem}
     notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
     refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php
+
 
 
