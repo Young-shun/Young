@@ -12,6 +12,7 @@
     <artifactId>sky-take-out</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <description>Sky Take Out 是一个基于 Spring Cloud Alibaba 的外卖业务微服务项目，包含用户端、管理端、网关和多业务服务模块。</description>
     <modules>
         <module>sky-common</module>
         <module>sky-pojo</module>
